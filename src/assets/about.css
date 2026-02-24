@@ -1,0 +1,333 @@
+/* --- About Page & Global Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Playfair+Display:wght@900&family=DM+Sans:wght@300;400;500;700&display=swap');
+/* --- About Page Global Styles --- */
+.about-page {
+  background-color: #fbf8f5;
+  padding: 100px 8vw;
+  color: #1a1210;
+}
+
+
+.about-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* --- Hero Layout (Merged Design) --- */
+.about-hero {
+  padding: 0 8vw;
+  margin-bottom: 100px;
+}
+
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 100px;
+  margin-bottom: 80px;
+}
+.hero-left {
+  flex: 1.5;
+}
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 8vw, 7.5rem);
+  line-height: 0.85;
+  letter-spacing: -3px;
+  color: #a67663;
+  margin-bottom: 40px;
+}
+.hero-contact-list {
+  font-size: 0.85rem;
+  color: #8a7e78;
+  line-height: 1.6;
+}
+
+.hero-center {
+  flex: 0 0 320px;
+}
+
+.profile-main-img {
+  width: 100%;
+  filter: grayscale(10%) contrast(105%);
+}
+
+.hero-role-title {
+  font-family: 'Bad Script', cursive; /* Keeping handwritten style */
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+.hero-bio-text {
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4a3c38;
+  font-weight: 300;
+}
+.hero-right {
+  margin-top: 10%;
+}
+.stats-vertical-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  text-align: right; /* Aligns text to the right edge */
+}
+
+.stat-item-vertical {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease;
+}
+
+.stat-item-vertical:hover {
+  transform: translateX(-10px); /* Subtle interactive shift */
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #a67663;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #a08070;
+  font-weight: 700;
+  margin-top: 5px;
+}
+/* --- Skills & Certs Labels --- */
+.section-label {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: #a67663;
+  text-align: center;
+  margin-bottom: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- Technical Skills Grid --- */
+.skills { 
+  padding: 0 8vw; 
+  margin-bottom: 100px; 
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+
+.skill-group h3 {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  border-bottom: 1px solid #a67663;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+.skill-name { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 14px; 
+  margin-bottom: 8px; 
+}
+
+.skill-pct { 
+  color: #a67663; 
+  font-weight: 600; 
+}
+
+.bar-track { 
+  height: 2px; 
+  background: rgba(166, 118, 99, 0.1); 
+  overflow: hidden; 
+}
+
+.bar-fill { 
+  height: 100%; 
+  background: #a67663; 
+  transition: width 1.3s ease-out; 
+}
+
+/* ══════════════════════════════════════
+    FROSTED CERTIFICATIONS ACCORDION
+   ══════════════════════════════════════ */
+.certs { 
+  padding: 20px 8vw 120px; 
+  background-color: transparent;
+}
+
+.certs-accordion { 
+  max-width: 1050px; 
+  margin: 0 auto; 
+  /* Border uses the light Copper tint from your palette */
+  border: 1px solid rgba(166, 118, 99, 0.2); 
+  background: transparent; 
+}
+
+.acc-group { 
+  border-bottom: 1px solid #ede0d8; /* Soft champagne border */
+}
+
+.acc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 25px;
+  cursor: pointer;
+  background: rgba(166, 118, 99, 0.15); 
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px); 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.acc-header:hover {
+  /* Glow effect on hover */
+  background: rgba(166, 118, 99, 0.25);
+  border-color: rgba(166, 118, 99, 0.4);
+}
+
+.acc-cat-label {
+  font-size: 8px;
+  font-weight: 700;
+  background: #c07060; /* Primary Rose */
+  color: #ffffff;
+  padding: 5px 12px;
+  margin: 10px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.acc-header-title { 
+  font-size: 16px; 
+  font-weight: 500; 
+  color: #1a1210; /* Dark contrast text */
+}
+
+.acc-arrow { 
+  font-size: 13px; 
+  color: #c07060; /* Copper accent */
+  transition: transform 0.35s ease; 
+}
+
+.acc-arrow.open { 
+  transform: rotate(180deg); 
+}
+
+/* ── Frosted Glass Effect ── */
+.acc-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* The "Frosted" look using alpha transparency and blur */
+  background: rgba(240, 232, 226, 0.5); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* Safari support */
+}
+
+.acc-body.open { 
+  max-height: 1200px; 
+}
+
+.acc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-top: 1px solid rgba(166, 118, 99, 0.1);
+}
+
+/* ══════════════════════════════════════
+    ATM CARD THUMBNAILS
+   ══════════════════════════════════════ */
+.cert-thumbnail {
+  width: 85px; 
+  height: 54px; 
+  background: #ffffff;
+  border: 1px solid #a67663; /* Copper border */
+  position: relative;
+  overflow: hidden;
+  cursor: zoom-in;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-thumbnail img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.cert-thumbnail:hover { 
+  transform: scale(1.05); 
+}
+
+.thumb-overlay {
+  position: absolute; 
+  inset: 0; 
+  /* Rose Gold overlay on hover */
+  background: rgba(166, 118, 99, 0.85);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  opacity: 0; 
+  transition: opacity 0.3s;
+}
+
+.thumb-overlay span { 
+  color: #ffffff; 
+  font-size: 10px; 
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.cert-thumbnail:hover .thumb-overlay { 
+  opacity: 1; 
+}
+
+/* ══════════════════════════════════════
+    LIGHTBOX MODAL
+   ══════════════════════════════════════ */
+.lightbox-overlay { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(26, 18, 16, 0.95); /* Deep dark background for focus */
+  z-index: 9999; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.lightbox-content { 
+  position: relative; 
+  max-width: 90%; 
+}
+
+.lightbox-content img { 
+  max-width: 100%; 
+  max-height: 85vh; 
+  border: 4px solid #ffffff; 
+  box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+}
+
+.close-btn { 
+  position: absolute; 
+  top: -50px; 
+  right: -20px; 
+  color: #ffffff; 
+  background: none; 
+  border: none; 
+  font-size: 40px; 
+  cursor: pointer; 
+}

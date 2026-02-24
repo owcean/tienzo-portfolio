@@ -1,0 +1,225 @@
+/* --- Centered Pill Navbar --- */
+.navbar-wrapper {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    /* Semi-transparent dark background to make the blur visible */
+    background: rgba(26, 18, 16, 0.75); 
+    
+    /* The Blurry Effect */
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); /* Support for Safari */
+    
+    padding: 8px 12px 8px 25px;
+    border-radius: 100px;
+    
+    /* Subtle border to define the shape against the background */
+    border: 1px solid rgba(166, 118, 99, 0.2); 
+    gap: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  /* Static Logo Style */
+  .nav-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: default; /* Removes pointer cursor to signify no interaction */
+  }
+  
+  /* --- Logo Base State --- */
+  .nav-logo {
+    height: 30px; /* Original size */
+    width: auto;
+    display: block;
+    /* Transitions: height for growth, transform for the twirl */
+    transition: height 0.5s ease-out, transform 4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    will-change: transform, height;
+  }
+  
+  /* --- Logo Hover State --- */
+  .nav-logo:hover {
+    height: 60px; /* Your requested big size */
+    /* Twirl: 360 degrees for a full spin, or 720 for a double spin */
+    transform: rotate(360deg); 
+    filter: drop-shadow(0 0 10px rgba(166, 118, 99, 0.3)); /* Subtle Copper glow */
+  }
+  .nav-links { display: flex; gap: 10px; }
+  
+  /* Base Nav Item Style */
+  .nav-item {
+    color: #fbf8f5; /* Champagne text */
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover and Active Styles isolated to nav items only */
+  .nav-item:hover, .router-link-active {
+    background: rgba(166, 118, 99, 0.4); /* Copper background tint */
+    color: #e7c1b8; /* Rose Gold text highlight */
+  }
+  
+  /* --- Theme Toggle Button --- */
+  .theme-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .toggle-track {
+    width: 55px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    position: relative;
+    border: 1px solid rgba(166, 118, 99, 0.4);
+  }
+  
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: #a67663; /* Copper */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .toggle-thumb.is-dark {
+    transform: translateX(27px);
+    background: #e7c1b8; /* Rose Gold */
+  }
+  
+  /* --- Global Circular Cursor & Particles --- */
+  :global(html), :global(body), :global(a), :global(button) { cursor: none !important; }
+  
+  .cursor-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999999; }
+  
+  .main-cursor-circle {
+    position: fixed;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid #a67663; /* Copper ring */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+  }
+  
+  .cursor-active {
+    width: 55px;
+    height: 55px;
+    background: rgba(231, 193, 184, 0.15); /* Rose Gold tint */
+    border-color: #e7c1b8;
+  }
+  
+  .dust-particle {
+    position: fixed;
+    background: #e7c1b8; /* Rose Gold sprinkles */
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sprinkle-vanish 1s forwards ease-out;
+  }
+  
+  @keyframes sprinkle-vanish {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
+  
+  .footer-wrapper {
+  width: 100%;
+  padding: 60px 6vw 40px;
+  background: var(--bg-color, #fbf8f5); /* Champagne */
+  border-top: 1px solid rgba(166, 118, 99, 0.1); /* Subtle Copper border */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Left Section */
+.copyright {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1a1210;
+  margin-bottom: 5px;
+}
+
+.university {
+  font-size: 10px;
+  color: rgba(166, 118, 99, 0.7); /* Copper tint */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Center Section */
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 24px;
+  color: #a67663; /* Copper */
+  opacity: 0.5;
+}
+
+/* Right Section */
+.footer-link {
+  font-size: 12px;
+  text-decoration: none;
+  color: #1a1210;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #e7c1b8; /* Rose Gold hover */
+}
+
+.sep {
+  margin: 0 10px;
+  color: rgba(166, 118, 99, 0.2);
+  font-size: 10px;
+}
+
+.footer-line {
+  margin-top: 40px;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(231, 193, 184, 0.3), transparent); /* Rose Gold gradient */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-left { order: 2; }
+  .footer-center { order: 1; }
+  .footer-right { order: 3; }
+}

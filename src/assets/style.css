@@ -1,0 +1,30 @@
+/* src/assets/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700&display=swap');
+
+/* Default (Light) Mode Variables */
+:root {
+  --bg-color: #fbf8f5;        /* Champagne background */
+  --nav-pill-bg: rgba(26, 18, 16, 0.75); 
+  --card-bg: #ffffff;
+  --accent-color: #a67663;    /* Copper */
+  --highlight-color: #e7c1b8; /* Rose Gold */
+}
+
+/* Dark Mode Variables */
+[data-theme='dark'] {
+  --bg-color: #120d0c;        /* Deep dark brown/black */
+  --text-color: #fbf8f5;      /* Champagne text */
+  --nav-pill-bg: rgba(251, 248, 245, 0.1); 
+  --card-bg: #1a1210;
+  --accent-color: #e7c1b8;    /* Swaps Copper to Rose Gold */
+  --highlight-color: #a67663; /* Swaps Rose Gold to Copper */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--copper); /* Copper set as default text color */
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}

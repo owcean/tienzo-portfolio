@@ -1,0 +1,75 @@
+/* --- Full Screen Fitting Fixes --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: var(--champagne); /* Default to Champagne */
+  overflow-x: hidden;
+}
+
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Restored Preloader & Global Entrance --- */
+
+:root {
+  /* */
+  --rose-gold: #e7c1b8;
+  --champagne: #fbf8f5;
+  --copper: #a67663;
+}
+
+/* Character Reveal Logic */
+.name-wrapper {
+  display: flex;
+  overflow: hidden; 
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 15vw, 10rem);
+  text-transform: uppercase;
+}
+
+.char {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--rose-gold); /* */
+}
+
+/* Animation Trigger for Preloader */
+.start-animation .char {
+  transform: translateY(0);
+}
+
+/* Preloader Container (Stays Dark) */
+.landing-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--champagne);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+}
+
+/* Ensure the layout allows the footer to stay at the bottom */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+/* This pushes the footer to the very bottom if the page content is short */
+router-view {
+  flex: 1;
+}
