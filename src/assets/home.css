@@ -1,57 +1,201 @@
+/* ============================================================
+   HOME.CSS  — Krisean Tienzo Portfolio
+   Covers: preloader, page transitions, reveal animations,
+           hero layout, work section, cards, explore footer
+   ============================================================ */
 
-  /* --- Preloader & Transition Logic --- */
-  .landing-container, .page-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--bg-dark); /* Preloader stays dark for impact */
-    z-index: 999;
-  }
+   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-  .name-wrapper, .hero-title {
-    display: flex;
-    overflow: hidden; 
-    font-family: var(--font-anton);
-    font-size: clamp(3rem, 15vw, 10rem);
-    text-transform: uppercase;
-  }
-
-  .char, .word-reveal span {
-    display: inline-block;
-    transform: translateY(110%);
-    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    color: var(--rose-gold); /* */
-  }
-
-  /* Animation Trigger */
-  .start-animation .char, 
-  .start-animation .word-reveal span,
-  .reveal-up {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
+   /* ─────────────────────────────────────────
+      0.  TOKENS
+   ───────────────────────────────────────── */
+   :root {
+     --rose:       #c07060;
+     --rose-light: #d4907e;
+     --rose-deep:  #8a4a3a;
+     --cream:      #faf7f4;
+     --warm:       #f0e8e0;
+     --dark:       #1a1210;
+     --mid:        #5a3e38;
+     --muted:      #a08070;
+     --bg-dark:    #0e0b09;
+   
+     --font-display: 'Playfair Display', serif;
+     --font-serif:   'Cormorant Garamond', serif;
+     --font-sans:    'DM Sans', sans-serif;
+   
+     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+     --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+   }
+   
+   /* ─────────────────────────────────────────
+      1.  PRELOADER
+   ───────────────────────────────────────── */
+   .landing-container,
+   .page-container {
+     position: fixed;
+     inset: 0;
+     z-index: 9999;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     background: var(--bg-dark);
+     overflow: hidden;
+   }
+   
+   /* Ambient orb inside preloader */
+   .landing-container::before,
+   .page-container::before {
+     content: '';
+     position: absolute;
+     width: 600px; height: 600px;
+     border-radius: 50%;
+     background: radial-gradient(circle,
+       rgba(192,112,96,0.14) 0%,
+       transparent 65%);
+     filter: blur(80px);
+     top: 50%; left: 50%;
+     transform: translate(-50%, -50%);
+     animation: preloaderOrb 4s ease-in-out infinite;
+     pointer-events: none;
+   }
+   
+   @keyframes preloaderOrb {
+     0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: .8; }
+     50%      { transform: translate(-50%,-50%) scale(1.2); opacity: 1;  }
+   }
+   
+   /* Grain on preloader */
+   .landing-container::after,
+   .page-container::after {
+     content: '';
+     position: absolute; inset: 0;
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+     pointer-events: none;
+   }
+   
+   /* Preloader name title */
+   .name-wrapper,
+   .hero-title {
+     position: relative; z-index: 1;
+     display: flex;
+     gap: 0.05em;
+     overflow: hidden;
+     font-family: var(--font-display);
+     font-size: clamp(3rem, 14vw, 10rem);
+     font-weight: 900;
+     text-transform: uppercase;
+     letter-spacing: -0.04em;
+     line-height: 0.9;
+   }
+   
+   /* Preloader progress bar */
+   .preloader-bar {
+     position: absolute;
+     bottom: 48px; left: 50%;
+     transform: translateX(-50%);
+     width: 200px; height: 1px;
+     background: rgba(192,112,96,0.15);
+     overflow: hidden;
+     z-index: 1;
+   }
+   .preloader-bar::after {
+     content: '';
+     display: block;
+     height: 100%;
+     background: var(--rose);
+     animation: barFill 2.2s var(--ease-out-expo) forwards;
+   }
+   @keyframes barFill {
+     from { width: 0%; }
+     to   { width: 100%; }
+   }
+   
+   /* ─────────────────────────────────────────
+      2.  CHARACTER / WORD REVEAL
+   ───────────────────────────────────────── */
+   
+   /* Each char or word span starts clipped below */
+   .char,
+   .word-reveal span {
+     display: inline-block;
+     transform: translateY(110%) skewY(3deg);
+     opacity: 0;
+     transition:
+       transform 1s var(--ease-out-expo),
+       opacity   0.6s ease,
+       skew      1s var(--ease-out-expo);
+     color: var(--rose);
+     will-change: transform;
+   }
+   
+   /* Trigger on parent */
+   .start-animation .char,
+   .start-animation .word-reveal span {
+     transform: translateY(0) skewY(0deg);
+     opacity: 1;
+   }
+   
+   /* Stagger each char by its index (set via JS: style="--i:N") */
+   .start-animation .char {
+     transition-delay: calc(var(--i, 0) * 0.04s + 0.1s);
+   }
+   
+   /* Word-level reveals (slower, for headlines) */
+   .start-animation .word-reveal span {
+     transition-duration: 1.4s;
+     transition-delay: calc(var(--i, 0) * 0.12s + 0.05s);
+   }
+   
+   /* ─────────────────────────────────────────
+      3.  REVEAL-UP  (generic scroll / load reveal)
+   ───────────────────────────────────────── */
+   .reveal-up {
+     opacity: 0;
+     transform: translateY(36px);
+     transition:
+       opacity   1.4s var(--ease-out-expo),
+       transform 1.4s var(--ease-out-expo);
+     will-change: transform, opacity;
+   }
+   
+   /* Triggered by .start-animation OR .in-view on a parent/self */
+   .start-animation .reveal-up,
+   .reveal-up.in-view {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   
+   /* ─────────────────────────────────────────
+      4.  PAGE TRANSITION WRAPPER
+   ───────────────────────────────────────── */
+   
+   /* Curtain that slides down on leave, reveals on enter */
+   .page-enter-active,
+   .page-leave-active {
+     position: fixed;
+     inset: 0; z-index: 8888;
+     background: var(--bg-dark);
+     pointer-events: none;
+   }
+   .page-enter-active {
+     animation: curtainIn 0.6s var(--ease-out-expo) forwards;
+   }
+   .page-leave-active {
+     animation: curtainOut 0.5s var(--ease-out-expo) forwards;
+   }
+   @keyframes curtainIn  {
+     from { transform: translateY(100%); }
+     to   { transform: translateY(0); }
+   }
+   @keyframes curtainOut {
+     from { transform: translateY(0); }
+     to   { transform: translateY(-100%); }
+   }
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-  /* ══════════════════════════════════════
-  REVEAL ANIMATIONS
-  ══════════════════════════════════════ */
-  .reveal-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 2.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .start-animation .reveal-up { opacity: 1; transform: translateY(0); }
-
-  .word-reveal span {
-  display: inline-block;
-  transform: translateY(110%);
-  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .start-animation .word-reveal span { transform: translateY(0); }
-
+ 
   /* ══════════════════════════════════════
   HERO
   ══════════════════════════════════════ */

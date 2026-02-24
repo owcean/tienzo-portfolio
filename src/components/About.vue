@@ -117,18 +117,66 @@
   ]
   
   const certGroups = [
-    { id: 'tech', category: 'Technical', title: 'Core Development', certs: [
-      { name: 'JavaScript Essentials 1', issuer: 'Cisco Networking Academy', image: '/project.png' },
-      { name: 'Responsive Web Design', issuer: 'freeCodeCamp', image: '/project.png' },
-      { name: 'JavaScript Algorithms', issuer: 'freeCodeCamp', image: '/project.png' }
-    ]},
-    { id: 'design', category: 'Design', title: 'UI/UX & Graphic', certs: [
-      { name: 'Website UI/UX with ChatGPT', issuer: 'Simplilearn', image: '/project.png' },
-      { name: 'Intro to Graphic Design', issuer: 'Simplilearn', image: '/project.png' }
-    ]},
-    { id: 'mkt', category: 'Marketing', title: 'Digital Strategy', certs: [
-      { name: 'SEO Certification', issuer: 'HubSpot Academy', image: '/project.png' },
-      { name: 'Digital Marketing', issuer: 'HubSpot Academy', image: '/project.png' }
-    ]}
-  ]
+  { 
+    id: 'tech', 
+    category: 'Technical', 
+    title: 'Core Development', 
+    certs: [
+      { 
+        name: 'Back-End Development and APIs V8', 
+        issuer: 'freeCodeCamp', 
+        image: '/back-end.png' 
+      },
+      { 
+        name: 'Legacy JavaScript Algorithms and Data Structures V7', 
+        issuer: 'freeCodeCamp', 
+        image: '/javascript.png' 
+      },
+      { 
+        name: 'Legacy Responsive Web Design V8', 
+        issuer: 'freeCodeCamp', 
+        image: '/responsive_web.png' 
+      }
+    ]
+  },
+  { 
+    id: 'design', 
+    category: 'Design', 
+    title: 'Design Thinking & UX', 
+    certs: [
+      { 
+        name: 'Design Thinking for Beginners', 
+        issuer: 'Simplilearn', 
+        image: '/design.png' 
+      }
+    ]
+  },
+  { 
+    id: 'mkt', 
+    category: 'Marketing', 
+    title: 'Digital Strategy & SEO', 
+    certs: [
+      { 
+        name: 'HubSpot SEO II Certified', 
+        issuer: 'HubSpot Academy', 
+        image: '/seo2.png' 
+      },
+      { 
+        name: 'SEO Certified', 
+        issuer: 'HubSpot Academy', 
+        image: '/seo1.png' 
+      },
+      { 
+        name: 'Content Marketing Certified', 
+        issuer: 'HubSpot Academy', 
+        image: '/content_marketing.png' 
+      },
+      { 
+        name: 'Digital Advertising Certified', 
+        issuer: 'HubSpot Academy', 
+        image: '/digital_advertising.png' 
+      }
+    ]
+  }
+];
   </script>
