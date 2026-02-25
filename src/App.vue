@@ -13,8 +13,8 @@
       <!--<About />
       <Projects />
       <Resume />
-      <Contact />  
-     <Footer />-->
+      <Contact />  -->
+     <Footer />
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import Navbar from './components/Navbar.vue'; // Import the component
 //import Resume from './components/Resume.vue';
 //import Contact from './components/Contact.vue';
 
-//import Footer from './components/Footer.vue';
+import Footer from './components/Footer.vue';
 
 const isVisible = ref(false);
 const showLanding = ref(true);
