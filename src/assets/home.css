@@ -593,18 +593,60 @@
   }
   
 
-  /* ══════════════════════════════════════
-  RESPONSIVE
-  ══════════════════════════════════════ */
-  @media (max-width: 900px) {
-  .featured-universe { padding: 56px 6vw 48px; }
-  .universe-inner { flex-direction: column; gap: 40px; }
-  .universe-left { border-right: none; border-bottom: 1px solid rgba(192,112,96,0.15); padding-right: 0; padding-bottom: 32px; }
-  .deck-wrap { width: 300px; height: 400px; }
-  }
 
-  @media (max-width: 600px) {
-  .hero-layout { flex-direction: column; height: auto; padding: 80px 5% 48px; gap: 32px; }
-  .side-content.right { text-align: left; }
-  .deck-wrap { width: 280px; height: 400px; }
-  }
+/* Icon wrapper inside badge */
+.badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(192, 112, 96, 0.12);
+  color: #c07060;
+  flex-shrink: 0;
+}
+
+.badge-label {
+  white-space: nowrap;
+}
+
+/* Gentle up-down float */
+@keyframes badgeFloat {
+  0%,  100% { transform: translateY(0px)   rotate(0deg); }
+  30%        { transform: translateY(-8px)  rotate(0.4deg); }
+  60%        { transform: translateY(5px)   rotate(-0.3deg); }
+}
+
+
+/* ═════════════════════════════════════
+   PARTICLE CANVAS — dark universe
+══════════════════════════════════════ */
+.featured-universe {
+  position: relative; /* ensure canvas anchors correctly */
+}
+
+.universe-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;       /* behind orbs (z-index 0), behind inner (z-index 1) */
+  pointer-events: none;
+}
+
+/* Orbs were already z-index 0; nudge them up slightly so they layer over canvas */
+.orb { z-index: 1; }
+.universe-grain { z-index: 2; }
+.universe-inner { z-index: 3; }
+.explore-footer { position: relative; z-index: 3; }
+
+
+/* ══════════════════════════════════════
+   RESPONSIVE — hide far-edge badges on small screens
+══════════════════════════════════════ */
+
+
+@media (max-width: 600px) {
+  .badges-layer { display: none; }
+}

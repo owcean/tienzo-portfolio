@@ -9,11 +9,7 @@
     </div>
 
     <div v-else>
-      <Navbar /> <router-view />
-      <!--<About />
-      <Projects />
-      <Resume />
-      <Contact />  -->
+      <Navbar /> <router-view />  
      <Footer />
     </div>
   </div>
@@ -21,12 +17,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import Navbar from './components/Navbar.vue'; // Import the component
-//import About from './components/About.vue';
-//import Projects from './components/Projects.vue';
-//import Resume from './components/Resume.vue';
-//import Contact from './components/Contact.vue';
-
+import Navbar from './components/Navbar.vue'; 
 import Footer from './components/Footer.vue';
 
 const isVisible = ref(false);

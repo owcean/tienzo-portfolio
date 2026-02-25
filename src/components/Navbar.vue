@@ -44,7 +44,7 @@
   
   <script setup>
   import { ref, onMounted, onUnmounted } from 'vue';
-  import '../assets/nav.css'
+  import '../assets/foot-nav.css'
 
   
   // --- Theme Toggle Logic ---

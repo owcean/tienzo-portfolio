@@ -3,6 +3,20 @@
 
     <!-- ══ HERO ══ -->
     <section class="hero-layout">
+
+      <!-- Floating skill badges -->
+      <div class="badges-layer" aria-hidden="true">
+        <div
+          v-for="badge in skillBadges"
+          :key="badge.label"
+          class="skill-badge"
+          :style="badge.style"
+        >
+          <span class="badge-icon" v-html="badge.icon"></span>
+          <span class="badge-label">{{ badge.label }}</span>
+        </div>
+      </div>
+
       <div class="side-content left">
         <p class="greeting reveal-up">Hello, I'm</p>
         <h1 class="hero-name">
@@ -32,25 +46,23 @@
           <span class="word-reveal"><span>&amp; Designer</span></span>
         </h2>
       </div>
+
     </section>
 
     <!-- ══ FEATURED PROJECTS ══ -->
     <section class="work-section" id="projects">
-
-      <!-- Dark orb container -->
       <div class="featured-universe">
 
-        <!-- Animated glowing orbs -->
+        <!-- Particle canvas inside dark section -->
+        <canvas class="universe-canvas" ref="canvasEl"></canvas>
+
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
-
-        <!-- Noise grain texture overlay -->
         <div class="universe-grain"></div>
 
         <div class="universe-inner">
 
-          <!-- LEFT: title block -->
           <div class="universe-left">
             <span class="universe-eyebrow">Selected Works</span>
             <h2 class="universe-title" :class="{ stamped: isStamped }">
@@ -65,7 +77,6 @@
             <p class="universe-hint">Click the cards to cycle</p>
           </div>
 
-          <!-- RIGHT: card deck -->
           <div class="universe-right">
             <div class="deck-wrap" @click="cycleDeck">
               <div
@@ -93,30 +104,30 @@
           </div>
 
         </div>
-        <!-- Explore footer -->
-      <div class="explore-footer reveal-up">
-        <router-link to="/projects" class="outline-btn">
-          Explore All Projects
-        </router-link>
-      </div>
-      </div>
 
-      
+        <div class="explore-footer reveal-up">
+          <router-link to="/projects" class="outline-btn">
+            Explore All Projects
+          </router-link>
+        </div>
 
+      </div>
     </section>
+
   </main>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import '../assets/home.css'; 
-
+import '../assets/home.css'
 
 const isVisible = ref(false)
 const isStamped = ref(false)
 const currentProjectIndex = ref(0)
+const canvasEl  = ref(null)
+let   animId    = null
 
-// Typewriter
+// ── Typewriter ──────────────────────────────────────────────────
 const currentText = ref('')
 const phrases = ['Frontend Developer', 'UI / UX Design']
 let phraseIdx = 0, charIdx = 0, isDeleting = false
@@ -127,35 +138,40 @@ const type = () => {
   else            { currentText.value = phrase.substring(0, charIdx + 1); charIdx++ }
   let speed = isDeleting ? 50 : 150
   if (!isDeleting && charIdx === phrase.length) { isDeleting = true; speed = 2000 }
-  else if (isDeleting && charIdx === 0)         { isDeleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; speed = 500 }
+  else if (isDeleting && charIdx === 0) { isDeleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; speed = 500 }
   setTimeout(type, speed)
 }
 
-// Projects
+
+
+// ── Projects ────────────────────────────────────────────────────
 const projectStack = ref([
-  { 
-    id: 1, 
-    title: 'StudioSpot', 
-    category: 'Web Development', 
-    description: 'A professional platform designed for creative spaces, focusing on seamless booking and modern UI/UX.', 
-    image: '/project.png', 
-    link: 'https://github.com/owcean/StudioSpot.git' 
+  {
+    id: 1,
+    title: 'StudioSpot',
+    category: 'Web Development',
+    description:
+      'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout built with Vue.',
+    image: '/studio.png',
+    link: 'https://github.com/owcean/StudioSpot.git',
   },
-  { 
-    id: 2, 
-    title: 'Crumbs & Layer', 
-    category: 'E-commerce Concept', 
-    description: 'A bespoke cake business interface blending your passion for baking with clean, responsive frontend code.', 
-    image: '/project.png', 
-    link: 'https://github.com/owcean/Crumbs-Layer.git' 
+  {
+    id: 2,
+    title: 'HAU ECO QUEST',
+    category: 'Full Stack Web App',
+    description:
+      'An interactive eco-awareness platform that gamifies sustainability through quests, progress tracking, and community engagement.',
+    image: '/haueco.png',
+    link: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
-  { 
-    id: 3, 
-    title: 'Bloom Blossom Florals', 
-    category: 'Frontend Design', 
-    description: 'An elegant floral shop project utilizing your HTML, CSS, and JavaScript skills for a high-end editorial feel.', 
-    image: '/project.png', 
-    link: 'https://github.com/owcean/Bloom-Blossom-Florals.git' 
+  {
+    id: 3,
+    title: 'Crumbs & Layer',
+    category: 'E-commerce Concept',
+    description:
+      'A bespoke cake business interface combining thoughtful branding with responsive frontend development and clean user flows.',
+    image: '/crumbs.png',
+    link: 'https://github.com/owcean/Crumbs-Layer.git',
   },
 ])
 
@@ -165,14 +181,88 @@ const cycleDeck = () => {
   currentProjectIndex.value = (currentProjectIndex.value + 1) % projectStack.value.length
 }
 
-const getCardStyle = (index) => {
-  const rotations = [-5, 3, -2]
-  const xOffsets  = [-12, 8, 0]
-  return {
-    transform: `rotate(${rotations[index] || 0}deg) translate(${xOffsets[index] || 0}px, ${index * 6}px)`,
-    zIndex:  projectStack.value.length - index,
-    opacity: 1 - index * 0.18,
+const getCardStyle = (index) => ({
+  transform: `rotate(${[-5, 3, -2][index] || 0}deg) translate(${[-12, 8, 0][index] || 0}px, ${index * 6}px)`,
+  zIndex:  projectStack.value.length - index,
+  opacity: 1 - index * 0.18,
+})
+
+// ── Particle system for dark universe section ────────────────────
+function initParticles(canvas) {
+  const ctx = canvas.getContext('2d')
+  let W = 0, H = 0
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect()
+    W = canvas.width  = rect.width
+    H = canvas.height = rect.height
   }
+  resize()
+  const ro = new ResizeObserver(resize)
+  ro.observe(canvas.parentElement)
+
+  // Darker, deeper rose for the dark background
+  const PALETTE = [
+    'rgba(192,112,96,',
+    'rgba(160,80,60,',
+    'rgba(220,148,120,',
+    'rgba(138,74,58,',
+    'rgba(245,200,180,',
+  ]
+
+  const COUNT = 55
+  const particles = Array.from({ length: COUNT }, () => spawn())
+
+  function spawn() {
+    return {
+      x:   Math.random() * (W || 800),
+      y:   Math.random() * (H || 500),
+      r:   Math.random() * 2.4 + 0.5,
+      vx:  (Math.random() - 0.5) * 0.32,
+      vy:  (Math.random() - 0.5) * 0.32,
+      col: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+      a:   Math.random() * 0.30 + 0.08,
+      pa:  Math.random() * Math.PI * 2,
+      ps:  Math.random() * 0.01 + 0.003,
+    }
+  }
+
+  const CONN = 125
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H)
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy; p.pa += p.ps
+      if (p.x < -10) p.x = W + 10
+      if (p.x > W + 10) p.x = -10
+      if (p.y < -10) p.y = H + 10
+      if (p.y > H + 10) p.y = -10
+      const alpha = p.a + Math.sin(p.pa) * 0.08
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+      ctx.fillStyle = p.col + alpha + ')'
+      ctx.fill()
+    }
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x
+        const dy = particles[i].y - particles[j].y
+        const d  = Math.sqrt(dx * dx + dy * dy)
+        if (d < CONN) {
+          const r = 1 - d / CONN
+          ctx.beginPath()
+          ctx.moveTo(particles[i].x, particles[i].y)
+          ctx.lineTo(particles[j].x, particles[j].y)
+          ctx.strokeStyle = `rgba(192,112,96,${r * 0.18})`
+          ctx.lineWidth   = r * 0.8
+          ctx.stroke()
+        }
+      }
+    }
+    animId = requestAnimationFrame(draw)
+  }
+  draw()
+  return () => { cancelAnimationFrame(animId); ro.disconnect() }
 }
 
 const handleScroll = () => {
@@ -183,11 +273,15 @@ const handleScroll = () => {
   }
 }
 
+let cleanupParticles = null
 onMounted(() => {
   type()
   setTimeout(() => { isVisible.value = true }, 100)
   window.addEventListener('scroll', handleScroll)
+  if (canvasEl.value) cleanupParticles = initParticles(canvasEl.value)
 })
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  cleanupParticles?.()
+})
 </script>
-

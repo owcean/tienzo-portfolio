@@ -126,46 +126,62 @@ const PEEK_W   = 82    // collapsed card peek width
 
 const projects = ref([
   {
-    id: 1, title: 'StudioSpot', category: 'Web Development',
-    description: 'A platform for creative spaces with seamless booking and modern UI/UX. Built with Vue.js with a clean, editorial aesthetic for easy navigation and discovery.',
+    id: 1,
+    title: 'StudioSpot',
+    category: 'Web Development',
+    description:
+      'A platform for creative spaces with seamless booking and modern UI/UX. Built with Vue.js with a clean, editorial aesthetic for easy navigation and discovery.',
     tools: ['Vue.js', 'CSS3', 'JavaScript', 'Firebase'],
-    mainImage: '/project.png',
+    image: '/studio.png',
     demo: 'https://github.com/owcean/StudioSpot',
     repo: 'https://github.com/owcean/StudioSpot.git',
   },
   {
-    id: 2, title: 'Crumbs & Layer', category: 'E-commerce Concept',
-    description: 'Bespoke cake business interface blending baking passion with clean frontend code. Features a custom cake builder, product gallery, and responsive checkout flow.',
+    id: 2,
+    title: 'Crumbs & Layer',
+    category: 'E-commerce Concept',
+    description:
+      'Bespoke cake business interface blending baking passion with clean frontend code. Features a custom cake builder, product gallery, and responsive checkout flow.',
     tools: ['HTML5', 'CSS3', 'JavaScript', 'Figma'],
-    mainImage: '/project.png',
-    demo: 'https://github.com/owcean/Crumbs-Layer',
+    image: '/crumbs.png',
+    demo: 'https://owcean.github.io/Crumbs-Layer/',
     repo: 'https://github.com/owcean/Crumbs-Layer.git',
   },
   {
-    id: 3, title: 'Bloom Blossom Florals', category: 'Frontend Design',
-    description: 'Elegant floral shop showcasing editorial HTML/CSS/JS design. Features animated product cards, a filterable catalogue, and a soft organic visual language.',
+    id: 3,
+    title: 'Bloom Blossom Florals',
+    category: 'Frontend Design',
+    description:
+      'Elegant floral shop showcasing editorial HTML/CSS/JS design. Features animated product cards, a filterable catalogue, and a soft organic visual language.',
     tools: ['HTML5', 'CSS3', 'JavaScript'],
-    mainImage: '/project.png',
-    demo: 'https://github.com/owcean/Bloom-Blossom-Florals',
+    image: '/blooms.png',
+    demo: 'https://beamish-sopapillas-131a04.netlify.app/',
     repo: 'https://github.com/owcean/Bloom-Blossom-Florals.git',
   },
   {
-    id: 4, title: 'Portfolio 2026', category: 'Vue & Web Design',
-    description: 'Modern editorial portfolio featuring cinematic hero animations, orb backgrounds, and a rose gold design system. Built entirely in Vue 3 with scoped CSS.',
-    tools: ['Vue 3', 'CSS3', 'Figma', 'Vite'],
-    mainImage: '/project.png',
-    demo: 'https://github.com/owcean',
-    repo: 'https://github.com/owcean',
+    id: 4,
+    title: 'HAU ECO QUEST',
+    category: 'Full Stack Web App',
+    description:
+      'An interactive eco-awareness web application promoting sustainability within the university community. Features quests, progress tracking, and gamified learning.',
+    tools: ['Vue.js', 'Node.js', 'Express', 'MongoDB'],
+    image: '/haueco.png',
+    demo: 'https://hauecoquest.vercel.app/',
+    repo: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
   {
-    id: 5, title: 'Pulse Dashboard', category: 'UI/UX Design',
-    description: 'Analytics dashboard with real-time data visualisation, dark mode toggle, and a component library built from scratch. Focused on clarity and data density.',
-    tools: ['Vue 3', 'D3.js', 'CSS3', 'Vite'],
-    mainImage: '/project.png',
-    demo: 'https://github.com/owcean',
-    repo: 'https://github.com/owcean',
+    id: 5,
+    title: 'Coming Soon',
+    category: 'In Progress',
+    description:
+      'A new project currently under development. Details and live demo will be revealed soon.',
+    tools: [],
+    image: null,
+    demo: null,
+    repo: null,
   },
 ])
+
 
 const n     = computed(() => projects.value.length)
 const railW = computed(() => ACTIVE_W + (n.value - 1) * PEEK_W)
