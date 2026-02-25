@@ -1,6 +1,7 @@
-/* assets/project.css */
+/* NOTE: Fonts & base tokens are loaded by src/assets/style.css
+   Do NOT add @import for Google Fonts here. */
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+/* assets/project.css */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,8 +20,8 @@
   --bg-card-near:   #a87c6e;
   --bg-card-active: #6e4c42;
   --radius-card:    22px;
-  --font-display:   'Syne', sans-serif;
-  --font-body:      'DM Sans', sans-serif;
+  --font-display:   var(--font-display);
+  --font-body: var(--font-sans);
 }
 
 /* ══════════════════════════════════
@@ -31,7 +32,7 @@
   background: var(--bg-light);
   min-height: 100vh;
   padding: 90px 0 80px;
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   overflow: hidden;
 }
 
@@ -426,28 +427,64 @@
 /* ══════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════ */
-@media (max-width: 860px) {
-  .stack-rail { height: 460px; }
-  .card-title-main { font-size: 20px; }
-  .card-img-col { width: 48%; }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — project.css
+   Breakpoints: 1024px · 768px · 480px
+══════════════════════════════════════════════ */
+
+/* ── Tablet landscape ── */
+@media (max-width: 1024px) {
+  .stack-rail     { height: 480px; }
+  .card-title-main{ font-size: 22px; }
+  .card-img-col   { width: 50%; }
+  .card-desc      { font-size: 12.5px; }
+  .projects-title { font-size: clamp(36px, 6vw, 60px); }
 }
 
-@media (max-width: 600px) {
-  .projects-section { padding: 72px 0 56px; }
-  .projects-title { font-size: 36px; letter-spacing: -1px; }
+/* ── Tablet portrait ── */
+@media (max-width: 768px) {
+  .projects-section { padding: 80px 0 60px; }
+  .projects-header  { padding: 0 5vw; margin-bottom: 36px; }
+  .projects-title   { font-size: clamp(32px, 7vw, 52px); letter-spacing: -1.5px; }
+  .projects-sub     { font-size: 13px; }
 
   .stack-stage {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: 8px 16px 20px;
+    padding: 8px 5vw 20px;
     justify-content: flex-start;
   }
   .stack-stage::-webkit-scrollbar { display: none; }
-  .stack-rail { height: 500px; }
+  .stack-rail  { height: 460px; }
 
-  /* On mobile, expanded card stacks vertically */
-  .card-content-row { flex-direction: column; }
-  .card-img-col { width: 100%; height: 200px; flex-shrink: 0; }
-  .card-info-col { padding: 14px 16px; }
+  .card-title-main { font-size: 18px; }
+  .card-img-col    { width: 46%; }
+  .card-info-col   { padding: 14px 16px 14px 14px; }
+  .card-desc       { font-size: 12px; line-height: 1.65; }
+  .card-header     { padding: 14px 16px 12px; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .projects-section { padding: 72px 0 52px; }
+  .projects-title   { font-size: clamp(26px, 8vw, 40px); letter-spacing: -1px; }
+
+  /* Stack card content vertically on mobile */
+  .card-content-row  { flex-direction: column; }
+  .card-img-col      { width: 100%; height: 180px; flex-shrink: 0; }
+  .card-info-col     { padding: 12px 14px; gap: 8px; }
+  .stack-rail        { height: 500px; }
+
+  .card-title-main   { font-size: 16px; }
+  .card-cat-badge    { font-size: 8px; padding: 4px 9px; }
+  .card-desc         { font-size: 11.5px; }
+  .ctag              { font-size: 7.5px; padding: 3px 7px; }
+  .btn-ghost         { font-size: 9.5px; padding: 6px 10px; }
+  .btn-filled        { font-size: 9.5px; padding: 7px 14px; }
+
+  .stack-nav { gap: 12px; margin-top: 16px; }
+  .nav-arr   { width: 32px; height: 32px; }
+  .ndot      { width: 5px; height: 5px; }
 }

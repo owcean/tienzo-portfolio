@@ -1,3 +1,6 @@
+/* NOTE: Fonts & base tokens are loaded by src/assets/style.css
+   Do NOT add @import for Google Fonts here. */
+
 /* assets/home.css */
 
 /* ============================================================
@@ -5,8 +8,6 @@
    Covers: preloader, page transitions, reveal animations,
            hero layout, work section, cards, explore footer
    ============================================================ */
-
-   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
    /* ─────────────────────────────────────────
       0.  TOKENS
@@ -23,8 +24,8 @@
      --bg-dark:    #0e0b09;
    
      --font-display: 'Playfair Display', serif;
-     --font-serif:   'Cormorant Garamond', serif;
-     --font-sans:    'DM Sans', sans-serif;
+     --font-serif: var(--font-serif, 'Cormorant Garamond', serif);
+     --font-sans: var(--font-sans, 'DM Sans', sans-serif);
    
      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
      --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -195,9 +196,6 @@
      from { transform: translateY(0); }
      to   { transform: translateY(-100%); }
    }
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
-
- 
   /* ══════════════════════════════════════
   HERO
   ══════════════════════════════════════ */
@@ -214,14 +212,14 @@
   .side-content.right { text-align: right; }
 
   .hero-name {
-  font-family: var(--font-anton, 'Playfair Display', serif);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 6vw, 5rem);
   line-height: 0.9;
   text-transform: uppercase;
   color: var(--text-dark, #1a1210);
   }
   .hero-profession {
-  font-family: var(--font-anton, 'Playfair Display', serif);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 6vw, 5rem);
   line-height: 0.9;
   text-transform: uppercase;
@@ -252,7 +250,7 @@
   background: #1a1210;
   color: #fff;
   border: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
@@ -396,7 +394,7 @@
   }
 
   .universe-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: clamp(36px, 4.5vw, 60px);
   font-weight: 900;
   line-height: 0.88;
@@ -433,7 +431,7 @@
   margin-bottom: 16px;
   }
   .counter-current {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
   color: #c07060;
@@ -528,7 +526,7 @@
   }
 
   .card-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 900;
   color: #f5f0ea;
@@ -587,7 +585,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: all 0.3s;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   }
   .outline-btn:hover {
   background: var(--copper, #c07060);
@@ -648,7 +646,87 @@
    RESPONSIVE — hide far-edge badges on small screens
 ══════════════════════════════════════ */
 
+/* ══════════════════════════════════════════════
+   RESPONSIVE — home.css
+   Breakpoints: 1024px · 768px · 480px
+══════════════════════════════════════════════ */
 
-@media (max-width: 600px) {
+/* ── Tablet landscape ── */
+@media (max-width: 1024px) {
+  .hero-layout {
+    justify-content: space-between;
+    padding: 0 4%;
+    gap: 0;
+  }
+  .hero-name      { font-size: clamp(2.6rem, 7vw, 5rem); }
+  .hero-profession{ font-size: clamp(2rem, 5vw, 4rem); }
+  .profile-img    { margin-top: 80px; }
+
+  .universe-inner { gap: 36px; }
+  .universe-left  { padding-right: 32px; }
+  .deck-wrap      { width: 260px; height: 360px; }
+}
+
+/* ── Tablet portrait ── */
+@media (max-width: 768px) {
+  /* Hero: stack vertically — photo top, text below */
+  .hero-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100svh;
+    padding: 90px 6% 60px;
+    gap: 0;
+    align-items: center;
+    text-align: center;
+  }
+
+  .side-content.left  { order: 2; text-align: center; }
+  .side-content.right { order: 3; text-align: center; }
+  .profile-center     { order: 1; width: 100%; max-width: 340px; margin-bottom: 24px; }
+
+  .profile-img { margin-top: 0; max-width: 280px; }
+
+  .hero-name { font-size: clamp(3rem, 10vw, 5rem); }
+  .hero-profession { font-size: clamp(2.2rem, 7vw, 4rem); }
+
+  .hire-me-btn { margin: 20px auto 0; display: block; }
+
+  /* badges hidden on tablet */
   .badges-layer { display: none; }
+
+  /* Featured section */
+  .universe-inner {
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    text-align: center;
+  }
+  .universe-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(192,112,96,0.15);
+    padding-right: 0;
+    padding-bottom: 28px;
+    align-items: center;
+  }
+  .universe-counter { justify-content: center; }
+  .deck-wrap { width: 280px; height: 380px; }
+  .explore-footer { padding: 36px 0 44px; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .hero-layout { padding: 80px 5% 48px; }
+  .hero-name   { font-size: clamp(2.4rem, 11vw, 4rem); }
+  .hero-profession { font-size: clamp(1.8rem, 8vw, 3rem); }
+  .profile-img { max-width: 220px; }
+  .typewriter-container { font-size: 1rem; }
+  .hire-me-btn { padding: 10px 28px; font-size: 0.75rem; }
+
+  .featured-universe { padding: 40px 5vw 0; }
+  .universe-title { font-size: clamp(28px, 8vw, 42px); }
+  .deck-wrap { width: 250px; height: 350px; }
+
+  .card-inner { border-radius: 16px; }
+  .card-body  { padding: 12px 14px 16px; }
+  .card-title { font-size: 15px; }
 }

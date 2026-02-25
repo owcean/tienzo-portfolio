@@ -1,3 +1,6 @@
+/* NOTE: Fonts & base tokens are loaded by src/assets/style.css
+   Do NOT add @import for Google Fonts here. */
+
 /* assets/foot-nav.css */
 
 /* ─────────────────────────────────────────
@@ -50,7 +53,7 @@
 .nav-item {
   color: #1a1210; /* Ink text for legibility on light glass */
   text-decoration: none;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   padding: 8px 18px;
@@ -171,7 +174,7 @@
 
 /* Left Section */
 .copyright {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -188,7 +191,7 @@
 
 /* Center Section */
 .footer-logo {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-weight: 900;
   font-size: 24px;
   color: #a67663; /* Copper */
@@ -232,8 +235,6 @@
   .footer-right { order: 3; }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
-
 /* ── Tokens (mirror projects section) ── */
 :root {
   --fp-bg:           #faf7f4;
@@ -251,7 +252,7 @@
   background: #faf7f4;
   border-top: 1px solid rgba(192,112,96,0.15);
   padding: 44px 6vw 20px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   overflow: hidden;
   isolation: isolate;
 }
@@ -337,7 +338,7 @@
 
 /* Heading — animated gradient shimmer matching .projects-title */
 .footer-heading {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(34px, 4vw, 54px);
   font-weight: 800;
   line-height: 0.92;
@@ -370,7 +371,7 @@
 }
 
 .footer-desc {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 13.5px;
   line-height: 1.85;
   color: #5a3e38;
@@ -409,7 +410,7 @@
 }
 
 .email-addr {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14.5px;
   font-weight: 500;
   color: #1a1210;

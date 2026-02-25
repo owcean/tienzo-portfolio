@@ -1,30 +1,321 @@
-/* src/assets/style.css */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700&display=swap');
+/* ============================================================
+   src/assets/style.css
+   THE SINGLE SOURCE OF TRUTH for the entire project.
 
-/* Default (Light) Mode Variables */
+   ① Loads ALL fonts once — no component re-imports needed
+   ② Defines ALL design tokens as CSS custom properties
+   ③ Handles light  (default) and dark ([data-theme="dark"])
+   ④ Resets margin/padding/box-sizing globally
+   ⑤ Sets body defaults
+
+   Import order in main.js:
+     import './assets/style.css'   ← this file, first
+     (each component CSS file imports nothing; just uses vars)
+   ============================================================ */
+
+/* ─────────────────────────────────────────
+   FONT STACK  (loaded once, globally)
+   • Playfair Display — display headings, hero names, titles
+   • Cormorant Garamond — elegant serif body / taglines
+   • DM Sans — UI labels, body text, buttons
+   • JetBrains Mono — code blocks, stat numbers (resume)
+───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,opsz,wght@0,6..60,300;0,6..60,400;0,6..60,600;1,6..60,300;1,6..60,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ─────────────────────────────────────────
+   DESIGN TOKENS — Light Mode (default)
+───────────────────────────────────────── */
 :root {
-  --bg-color: #fbf8f5;        /* Champagne background */
-  --nav-pill-bg: rgba(26, 18, 16, 0.75); 
-  --card-bg: #ffffff;
-  --accent-color: #a67663;    /* Copper */
-  --highlight-color: #e7c1b8; /* Rose Gold */
+  /* ── Accent palette ── */
+  --rose:           #c07060;   /* primary rose / copper */
+  --rose-soft:      #e8c4b8;   /* pale rose gold        */
+  --rose-deep:      #8a4a3a;   /* deep rose / terracotta*/
+  --rose-dim:       rgba(192,112,96,0.65);
+
+  /* ── Backgrounds ── */
+  --bg:             #faf7f4;   /* page background (cream)   */
+  --bg-surface:     #f0e8e0;   /* slightly darker surface   */
+  --bg-dark:        #0e0b09;   /* preloader / dark sections */
+
+  /* ── Text ── */
+  --text:           #1a1210;   /* primary dark text  */
+  --text-mid:       #5a3e38;   /* secondary / muted  */
+  --text-muted:     #a08070;   /* very muted / hints */
+
+  /* ── Borders ── */
+  --border:         rgba(192,112,96,0.15);
+  --border-mid:     rgba(192,112,96,0.25);
+
+  /* ── Fonts ── */
+  --font-display:   'Playfair Display', Georgia, serif;
+  --font-serif:     'Cormorant Garamond', Georgia, serif;
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Motion ── */
+  --ease-expo:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:    cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* ── Legacy aliases (keeps old component vars working) ── */
+  --bg-color:       var(--bg);
+  --bg-cream:       var(--bg);
+  --card-bg:        #ffffff;
+  --accent-color:   var(--rose);
+  --highlight-color:var(--rose-soft);
+  --copper:         var(--rose);
+  --rose-gold:      var(--rose-soft);
+  --champagne:      var(--bg);
+  --nav-pill-bg:    rgba(250,247,244,0.72);
 }
 
-/* Dark Mode Variables */
-[data-theme='dark'] {
-  --bg-color: #120d0c;        /* Deep dark brown/black */
-  --text-color: #fbf8f5;      /* Champagne text */
-  --nav-pill-bg: rgba(251, 248, 245, 0.1); 
-  --card-bg: #1a1210;
-  --accent-color: #e7c1b8;    /* Swaps Copper to Rose Gold */
-  --highlight-color: #a67663; /* Swaps Rose Gold to Copper */
+/* ─────────────────────────────────────────
+   DARK MODE — toggled by data-theme="dark"
+   on <html>: document.documentElement
+               .setAttribute('data-theme','dark')
+───────────────────────────────────────── */
+[data-theme="dark"] {
+  --rose:           #d4907e;
+  --rose-soft:      rgba(212,144,126,0.18);
+  --rose-deep:      #c07060;
+  --rose-dim:       rgba(212,144,126,0.55);
+
+  --bg:             #0e0b09;
+  --bg-surface:     #1a1210;
+
+  --text:           #f0e6de;
+  --text-mid:       #c4a898;
+  --text-muted:     #7a5e54;
+
+  --border:         rgba(212,144,126,0.14);
+  --border-mid:     rgba(212,144,126,0.22);
+
+  /* Legacy aliases */
+  --bg-color:       var(--bg);
+  --bg-cream:       var(--bg);
+  --card-bg:        #1a1210;
+  --accent-color:   var(--rose);
+  --highlight-color:var(--rose-deep);
+  --copper:         var(--rose);
+  --rose-gold:      var(--rose-soft);
+  --champagne:      var(--bg);
+  --nav-pill-bg:    rgba(24,16,12,0.80);
+  --text-color:     var(--text);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ─────────────────────────────────────────
+   GLOBAL RESET
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────
+   BODY DEFAULTS
+───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  background-color: var(--bg-cream);
-  color: var(--copper); /* Copper set as default text color */
-  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Flex column so footer always sticks to bottom */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Router view fills remaining space */
+main,
+.router-view-wrapper {
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────
+   TYPOGRAPHY HELPERS
+   Use these classes anywhere in templates
+───────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-serif   { font-family: var(--font-serif);   }
+.font-sans    { font-family: var(--font-sans);     }
+.font-mono    { font-family: var(--font-mono);     }
+
+/* ─────────────────────────────────────────
+   PRELOADER — base styles (used by App.vue)
+───────────────────────────────────────── */
+.landing-container,
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  background: var(--bg-dark);
+  background-image: radial-gradient(
+    ellipse 55% 55% at 50% 50%,
+    rgba(192,112,96,0.14) 0%,
+    transparent 70%
+  );
+}
+
+/* Character reveal — used in preloader name */
+.name-wrapper,
+.pl-name {
+  display: flex;
+  gap: 0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 10vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.char,
+.pl-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(65%) skewY(3deg);
+  animation: charIn 0.65s var(--ease-expo) forwards;
+  animation-delay: calc(var(--i, 0) * 0.055s + 0.15s);
+}
+@keyframes charIn {
+  to { opacity: 1; transform: translateY(0) skewY(0deg); }
+}
+
+/* Progress bar */
+.pl-track {
+  width: 150px;
+  height: 1px;
+  background: rgba(192,112,96,0.18);
+  overflow: hidden;
+}
+.pl-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--rose);
+  animation: barFill 2s var(--ease-expo) 0.4s forwards;
+}
+@keyframes barFill { to { width: 100%; } }
+
+/* Preloader fade-out (Vue <Transition name="fade">) */
+.fade-leave-active { transition: opacity 0.55s ease; }
+.fade-leave-to     { opacity: 0; }
+
+/* ─────────────────────────────────────────
+   REVEAL SYSTEM
+   Used across all pages — add .up to any
+   element and wrap in parent with .ready
+───────────────────────────────────────── */
+.reveal-up,
+.up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity   0.9s var(--ease-expo),
+    transform 0.9s var(--ease-expo);
+  transition-delay: var(--d, var(--sd, 0s));
+}
+.ready .reveal-up,
+.ready .up,
+.start-animation .reveal-up,
+.start-animation .up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Word-clip slide up */
+.word-wrap,
+.word-reveal,
+.clip {
+  overflow: hidden;
+  display: block;
+}
+.word-inner,
+.word-reveal span,
+.inner {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 1s var(--ease-expo);
+  transition-delay: var(--d, var(--sd, 0s));
+}
+.ready .word-inner,
+.ready .word-reveal span,
+.ready .inner,
+.start-animation .word-inner,
+.start-animation .word-reveal span,
+.start-animation .inner {
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────
+   CURSOR  (Navbar.vue custom cursor)
+───────────────────────────────────────── */
+html.custom-cursor,
+html.custom-cursor body,
+html.custom-cursor a,
+html.custom-cursor button {
+  cursor: none !important;
+}
+
+/* ══════════════════════════════════════════════
+   GLOBAL RESPONSIVE UTILITIES
+   Shared across all pages
+══════════════════════════════════════════════ */
+
+/* ── Tablet landscape ── */
+@media (max-width: 1024px) {
+  .reveal-up, .up {
+    transition-duration: 0.75s;
+  }
+}
+
+/* ── Tablet portrait ── */
+@media (max-width: 768px) {
+  /* Hide custom cursor on touch devices */
+  .cursor-wrapper { display: none; }
+  html.custom-cursor,
+  html.custom-cursor body,
+  html.custom-cursor a,
+  html.custom-cursor button { cursor: auto !important; }
+
+  /* Tighter section padding globally */
+  section { scroll-margin-top: 70px; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  /* Prevent font blowup on orientation change */
+  html { -webkit-text-size-adjust: 100%; }
+
+  /* Tighter word-reveal on small screens */
+  .word-reveal span,
+  .word-inner,
+  .inner {
+    transition-duration: 0.8s;
+  }
+
+  /* Preloader name smaller */
+  .pl-name,
+  .name-wrapper {
+    font-size: clamp(1.6rem, 10vw, 4rem);
+    letter-spacing: -0.03em;
+  }
 }

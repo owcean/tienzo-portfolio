@@ -1,6 +1,7 @@
-/* assets/about.css */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* NOTE: Fonts & base tokens are loaded by src/assets/style.css
+   Do NOT add @import for Google Fonts here. */
 
+/* assets/about.css */
 /* ══════════════════════════════════════
    TOKENS
 ══════════════════════════════════════ */
@@ -21,7 +22,7 @@
 ══════════════════════════════════════ */
 .about-page {
   background: var(--cream);
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   color: var(--dark);
   overflow-x: hidden;
 }
@@ -107,7 +108,7 @@
 }
 
 .snippet-badge code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11.5px;
   color: #e8c4b8;
   white-space: nowrap;
@@ -199,7 +200,7 @@
 }
 
 .hero-name {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: clamp(3.2rem, 9vw, 8rem);
   font-weight: 900;
   line-height: .88;
@@ -249,7 +250,7 @@
 .stat-pill:hover { background: rgba(192,112,96,0.07); }
 
 .stat-num {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: clamp(20px, 3vw, 28px);
   font-weight: 900;
   color: var(--rose);
@@ -320,7 +321,7 @@
 }
 
 .bio-headline {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: clamp(2.8rem, 5.5vw, 5rem);
   font-weight: 900;
   line-height: .92;
@@ -348,7 +349,7 @@
 }
 .bio-deco-line::after {
   content: 'Krisean G. Tienzo';
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   color: rgba(90,62,56,0.45);
   letter-spacing: 2px;
@@ -664,7 +665,7 @@
 }
 
 .cert-tab {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -815,54 +816,90 @@
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — about.css
+   Breakpoints: 1024px · 768px · 480px · 380px
+══════════════════════════════════════════════ */
+
+/* ── Tablet landscape ── */
 @media (max-width: 1024px) {
-  .cert-grid { grid-template-columns: repeat(3, 1fr); }
+  .cert-grid  { grid-template-columns: repeat(3, 1fr); }
+  .skills-grid{ grid-template-columns: 1fr 1fr; }
   .snippet-badge:nth-child(3),
   .snippet-badge:nth-child(6) { display: none; }
-  .editor-body { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .panel-sep   { width: 100%; height: 1px; margin: 4px 0; }
-  .code-pre    { font-size: 11.5px; }
+  .editor-body{ grid-template-columns: 1fr; grid-template-rows: auto; }
+  .panel-sep  { width: 100%; height: 1px; margin: 4px 0; }
+  .code-pre   { font-size: 11.5px; }
+  .bio-inner  { gap: 48px; }
 }
 
-@media (max-width: 860px) {
-  .bio-inner { grid-template-columns: 1fr; gap: 40px; }
-  .bio-headline { font-size: clamp(2.4rem, 8vw, 3.5rem); }
-  .skills-grid { grid-template-columns: 1fr; }
-  .cert-grid { grid-template-columns: repeat(2, 1fr); }
-  .editor-tabs-row .editor-tab:not(.active) { display: none; }
-}
-
+/* ── Tablet portrait ── */
 @media (max-width: 768px) {
-  .about-hero { padding: 80px 5vw 48px; }
-  .hero-cards-wrap { width: clamp(240px, 70vw, 400px); height: clamp(160px, 42vw, 280px); }
-  .hero-name { letter-spacing: -2px; }
-  .hero-stats { flex-wrap: wrap; border-radius: 16px; }
-  .stat-pill  { padding: 12px 22px; }
-  .skills-section, .certs-section { padding-left: 5vw; padding-right: 5vw; }
-  .bio-strip { padding: 40px 4vw 48px; }
-  .code-panel { padding: 0 16px; }
-  .code-pre { font-size: 11px; }
+  .about-hero  { padding: 80px 5vw 48px; }
 
+  /* Hero cards smaller */
+  .hero-cards-wrap { width: clamp(240px, 70vw, 400px); height: clamp(160px, 42vw, 280px); }
+
+  .hero-name   { letter-spacing: -2px; font-size: clamp(2.8rem, 9vw, 5rem); }
+  .hero-stats  { flex-wrap: wrap; border-radius: 16px; }
+  .stat-pill   { padding: 12px 22px; }
+
+  /* Bio section stacks */
+  .bio-inner   { grid-template-columns: 1fr; gap: 40px; }
+  .bio-strip   { padding: 40px 4vw 48px; }
+
+  /* Skills */
+  .skills-grid { grid-template-columns: 1fr; }
+  .skills-section, .certs-section { padding-left: 5vw; padding-right: 5vw; }
+
+  /* Certs */
+  .cert-grid   { grid-template-columns: repeat(2, 1fr); }
+
+  /* Code panel */
+  .code-panel  { padding: 0 16px; }
+  .code-pre    { font-size: 11px; }
   .snippet-badge { font-size: 10px; padding: 7px 11px; }
   .snippet-badge:nth-child(3),
   .snippet-badge:nth-child(6) { display: none; }
+  .editor-tabs-row .editor-tab:not(.active) { display: none; }
+
+  /* Bio traits */
+  .bio-traits  { gap: 10px; }
+  .bio-chips   { gap: 6px; }
 }
 
-@media (max-width: 600px) {
+/* ── Mobile ── */
+@media (max-width: 480px) {
   .snippets-layer { display: none; }
-  .hero-cards-wrap { width: clamp(200px, 78vw, 340px); height: clamp(140px, 50vw, 240px); }
+  .hero-cards-wrap{ width: clamp(200px, 78vw, 340px); height: clamp(140px, 50vw, 240px); }
   .photo-card--left  { width: clamp(110px, 32vw, 190px); height: clamp(140px, 42vw, 240px); transform: rotate(-8deg) translateX(-55%) translateY(4%); }
   .photo-card--right { width: clamp(110px, 32vw, 190px); height: clamp(140px, 42vw, 240px); transform: rotate(8deg)  translateX(55%)  translateY(4%); }
   .photo-card--center{ width: clamp(130px, 38vw, 220px); height: clamp(160px, 48vw, 280px); }
-  .cert-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .hero-name   { font-size: clamp(2rem, 11vw, 3.5rem); letter-spacing: -1.5px; }
+  .hero-tagline{ font-size: 0.9rem; }
+  .stat-pill   { padding: 10px 16px; }
+
+  .bio-headline{ font-size: clamp(2rem, 8vw, 3rem); }
+  .bio-text    { font-size: 14px; }
+  .bio-chip    { font-size: 10px; padding: 5px 10px; }
+
+  .cert-grid   { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .cert-card-body { padding: 12px 14px 14px; }
-  .ln-col { display: none; }
-  .code-pre { font-size: 10.5px; }
+  .cert-tab    { font-size: 11px; padding: 7px 14px; }
+
+  .ln-col      { display: none; }
+
+  .lightbox-card { padding: 12px; border-radius: 14px; }
+  .lightbox-card img { border-radius: 10px; }
 }
 
-@media (max-width: 400px) {
-  .hero-stats { flex-direction: column; border-radius: 14px; }
-  .stat-pill  { border-right: none; border-bottom: 1px solid var(--border); width: 100%; }
+/* ── Small mobile ── */
+@media (max-width: 380px) {
+  .hero-stats  { flex-direction: column; border-radius: 14px; }
+  .stat-pill   { border-right: none; border-bottom: 1px solid var(--border); width: 100%; }
   .stat-pill:last-child { border-bottom: none; }
-  .cert-grid { grid-template-columns: 1fr; }
+  .cert-grid   { grid-template-columns: 1fr; }
+  .hero-name   { font-size: clamp(1.8rem, 12vw, 2.8rem); }
 }
