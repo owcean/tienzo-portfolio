@@ -13,13 +13,13 @@
 
       <div class="hero-cards-wrap stag-1">
         <div class="photo-card photo-card--left">
-          <img src="/kt_profile.png" alt="Krisean 1" />
+          <img src="/kt_pic1.jpg" alt="Krisean 1" />
         </div>
         <div class="photo-card photo-card--center">
-          <img src="/kt_profile.png" alt="Krisean 2" />
+          <img src="/kt_pic3.jpg" alt="Krisean 2" />
         </div>
         <div class="photo-card photo-card--right">
-          <img src="/kt_profile.png" alt="Krisean 3" />
+          <img src="/kt_pic2.jpg" alt="Krisean 3" />
         </div>
       </div>
 
