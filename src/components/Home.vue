@@ -27,10 +27,10 @@
           <span class="typewriter-text">{{ currentText }}</span>
           <span class="cursor">|</span>
         </div>
-        <button class="hire-me-btn reveal-up">
+        <router-link to="/contact" class="hire-me-btn reveal-up">
           <span>Hire Me</span>
           <div class="btn-glow"></div>
-        </button>
+        </router-link>
       </div>
 
       <div class="profile-center reveal-up">

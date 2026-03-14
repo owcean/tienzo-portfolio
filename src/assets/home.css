@@ -245,6 +245,9 @@
   /* Hire Me Button */
   .hire-me-btn {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 30px;
   padding: 12px 40px;
   background: #1a1210;
@@ -256,6 +259,7 @@
   cursor: pointer;
   overflow: hidden;
   transition: 0.4s;
+  text-decoration: none;
   }
   .btn-glow {
   position: absolute;

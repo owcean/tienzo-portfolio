@@ -1092,3 +1092,67 @@
 [data-theme="dark"] .editor-tab.active {
   color: #e7c1b8;
 }
+
+/* ── Dark mode missing fixes ── */
+[data-theme="dark"] .bio-strip {
+  background: #130f0d;
+}
+[data-theme="dark"] .bio-traits {
+  background: rgba(26, 18, 16, 0.8);
+  border-color: rgba(212, 144, 126, 0.12);
+}
+[data-theme="dark"] .bio-trait {
+  border-bottom-color: rgba(212, 144, 126, 0.08);
+}
+[data-theme="dark"] .bio-headline {
+  color: #fbf8f5 !important;
+}
+[data-theme="dark"] .bio-text {
+  color: rgba(231, 193, 184, 0.7) !important;
+}
+[data-theme="dark"] .bio-text strong {
+  color: #fbf8f5;
+}
+[data-theme="dark"] .bio-deco-line::after {
+  color: rgba(231, 193, 184, 0.35);
+}
+[data-theme="dark"] .trait-text.typing,
+[data-theme="dark"] .trait-text.done {
+  color: #e7c1b8;
+}
+[data-theme="dark"] .bio-chip {
+  background: rgba(26, 18, 16, 0.8) !important;
+  border-color: rgba(212, 144, 126, 0.25) !important;
+  color: #e7c1b8 !important;
+}
+[data-theme="dark"] .hero-stats {
+  background: rgba(26, 18, 16, 0.7);
+  border-color: rgba(212, 144, 126, 0.15);
+}
+[data-theme="dark"] .stat-num {
+  color: #d4907e;
+}
+[data-theme="dark"] .stat-label {
+  color: rgba(231, 193, 184, 0.45) !important;
+}
+[data-theme="dark"] .stat-pill {
+  border-right-color: rgba(212, 144, 126, 0.1);
+}
+[data-theme="dark"] .section-eyebrow {
+  color: #fbf8f5 !important;
+}
+[data-theme="dark"] .section-rule {
+  background: linear-gradient(90deg, rgba(212,144,126,0.3), transparent);
+}
+[data-theme="dark"] .skills-section {
+  background: #0e0b09 !important;
+}
+[data-theme="dark"] .certs-section {
+  background: #0e0b09 !important;
+}
+[data-theme="dark"] .about-hero {
+  background: #0e0b09;
+}
+[data-theme="dark"] .hero-tagline {
+  color: rgba(231, 193, 184, 0.5) !important;
+}
