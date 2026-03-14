@@ -488,3 +488,120 @@
   .modal-thumbs   { gap: 5px; }
   .modal-thumb    { width: 44px; height: 44px; }
 }
+/* ══════════════════════════════════
+   DARK MODE
+══════════════════════════════════ */
+[data-theme="dark"] .resume-page {
+  background: #0e0b09;
+}
+
+[data-theme="dark"] .resume-role {
+  color: rgba(196, 168, 152, 0.55);
+}
+
+[data-theme="dark"] .col-label {
+  color: rgba(212, 144, 126, 0.75);
+  border-bottom-color: rgba(212, 144, 126, 0.15);
+}
+
+[data-theme="dark"] .col-icon {
+  background: rgba(212, 144, 126, 0.1);
+  border-color: rgba(212, 144, 126, 0.2);
+  color: #d4907e;
+}
+
+[data-theme="dark"] .tl-card {
+  background: rgba(26, 18, 16, 0.85);
+  border-color: rgba(212, 144, 126, 0.12);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .tl-item:hover .tl-card {
+  border-color: rgba(212, 144, 126, 0.26);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .tl-title {
+  color: #f0e6de;
+}
+
+[data-theme="dark"] .tl-org {
+  color: rgba(196, 168, 152, 0.55);
+}
+
+[data-theme="dark"] .tl-body {
+  color: rgba(240, 230, 222, 0.5);
+}
+
+[data-theme="dark"] .tl-tag {
+  border-color: rgba(212, 144, 126, 0.18);
+  color: rgba(212, 144, 126, 0.65);
+  background: rgba(212, 144, 126, 0.06);
+}
+
+[data-theme="dark"] .tl-tag:hover {
+  background: rgba(212, 144, 126, 0.14);
+  color: #d4907e;
+}
+
+[data-theme="dark"] .skill-item {
+  background: rgba(26, 18, 16, 0.85);
+  border-color: rgba(212, 144, 126, 0.11);
+}
+
+[data-theme="dark"] .skill-item:hover {
+  background: rgba(36, 24, 20, 0.95);
+  border-color: rgba(212, 144, 126, 0.26);
+}
+
+[data-theme="dark"] .skill-icon-wrap {
+  background: rgba(212, 144, 126, 0.09);
+  border-color: rgba(212, 144, 126, 0.18);
+  color: #d4907e;
+}
+
+[data-theme="dark"] .skill-name {
+  color: #f0e6de;
+}
+
+[data-theme="dark"] .skill-desc {
+  color: rgba(196, 168, 152, 0.55);
+}
+
+[data-theme="dark"] .trait {
+  background: rgba(20, 14, 12, 0.8);
+  border-color: rgba(212, 144, 126, 0.18);
+  color: rgba(196, 168, 152, 0.65);
+}
+
+[data-theme="dark"] .trait:hover {
+  background: rgba(212, 144, 126, 0.1);
+  color: #c07060;
+}
+
+[data-theme="dark"] .trait.accent {
+  background: rgba(212, 144, 126, 0.1);
+  border-color: rgba(212, 144, 126, 0.28);
+  color: #d4907e;
+}
+
+[data-theme="dark"] .skills-divider {
+  background: linear-gradient(90deg, transparent, rgba(212, 144, 126, 0.18), transparent);
+}
+
+/* ── Dark mode text fixes ── */
+[data-theme="dark"] .tl-title,
+[data-theme="dark"] .skill-name {
+  color: #fbf8f5;
+}
+[data-theme="dark"] .tl-body,
+[data-theme="dark"] .tl-org,
+[data-theme="dark"] .resume-role,
+[data-theme="dark"] .col-label,
+[data-theme="dark"] .sg-num,
+[data-theme="dark"] .skill-desc {
+  color: #e7c1b8;
+}
+[data-theme="dark"] .trait {
+  color: #e7c1b8;
+}

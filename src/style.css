@@ -11,7 +11,7 @@ body {
   margin: 0;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: var(--champagne); /* Default to Champagne */
+  background-color: var(--champagne);
   overflow-x: hidden;
 }
 
@@ -21,57 +21,234 @@ body {
   padding: 0;
 }
 
-/* --- Restored Preloader & Global Entrance --- */
-
+/* --- Design Tokens --- */
 :root {
-  /* */
   --rose-gold: #e7c1b8;
   --champagne: #fbf8f5;
-  --copper: #a67663;
+  --copper:    #a67663;
 }
 
-/* Character Reveal Logic */
-.name-wrapper {
-  display: flex;
-  overflow: hidden; 
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(3rem, 15vw, 10rem);
-  text-transform: uppercase;
-}
-
-.char {
-  display: inline-block;
-  transform: translateY(110%);
-  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  color: var(--rose-gold); /* */
-}
-
-/* Animation Trigger for Preloader */
-.start-animation .char {
-  transform: translateY(0);
-}
-
-/* Preloader Container (Stays Dark) */
-.landing-container {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--champagne);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2000;
-}
-
-/* Ensure the layout allows the footer to stay at the bottom */
+/* --- Layout helpers --- */
 .main-layout {
   display: flex;
   flex-direction: column;
 }
-
-/* This pushes the footer to the very bottom if the page content is short */
 router-view {
   flex: 1;
+}
+
+
+/* ══════════════════════════════════════════
+   PRELOADER
+══════════════════════════════════════════ */
+
+.preloader-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #fbf8f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Particle canvas */
+.pre-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ambient orbs */
+.pre-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 1;
+}
+.pre-orb--1 {
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(192,112,96,0.10) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: preOrbPulse 4s ease-in-out infinite;
+}
+.pre-orb--2 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(231,193,184,0.14) 0%, transparent 65%);
+  top: 15%; left: 10%;
+  animation: preOrbDrift 6s ease-in-out infinite;
+}
+.pre-orb--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(166,118,99,0.08) 0%, transparent 65%);
+  bottom: 15%; right: 10%;
+  animation: preOrbDrift 8s ease-in-out infinite reverse;
+}
+
+@keyframes preOrbPulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.8; }
+  50%     { transform: translate(-50%,-50%) scale(1.14); opacity: 1;   }
+}
+@keyframes preOrbDrift {
+  0%,100% { transform: translate(0, 0); }
+  50%     { transform: translate(28px, -18px); }
+}
+
+/* Grain overlay */
+.pre-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Content block */
+.pre-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* All children hidden, slide up on .visible */
+.pre-eyebrow,
+.pre-char,
+.pre-role,
+.pre-bar-wrap,
+.pre-counter {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.pre-content.visible .pre-eyebrow,
+.pre-content.visible .pre-char,
+.pre-content.visible .pre-role,
+.pre-content.visible .pre-bar-wrap,
+.pre-content.visible .pre-counter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Eyebrow label */
+.pre-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(138,74,58,0.5);
+  margin-bottom: 20px;
+  transition-delay: 0s !important;
+}
+
+.pre-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #c07060;
+  flex-shrink: 0;
+  animation: preDotPulse 2s ease-in-out infinite;
+}
+.pre-dot:last-child { animation-delay: 1s; }
+@keyframes preDotPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: .3; transform: scale(2); }
+}
+
+/* Name wrapper — plain flex, NO gradient here */
+.pre-name {
+  display: flex;
+  gap: 0.04em;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 18px;
+}
+
+/* Each char carries the gradient — works because span is inline */
+.pre-char {
+  display: inline-block;
+  background: linear-gradient(
+    135deg,
+    #1a1210 0%,
+    #5a3e38 25%,
+    #c07060 50%,
+    #5a3e38 75%,
+    #1a1210 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: preNameShimmer 5s linear infinite;
+}
+
+@keyframes preNameShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Role subtitle */
+.pre-role {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(10px, 1.4vw, 13px);
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(90,62,56,0.5);
+  margin-bottom: 36px;
+}
+
+/* Progress bar */
+.pre-bar-wrap {
+  width: clamp(160px, 22vw, 260px);
+  height: 1.5px;
+  background: rgba(192,112,96,0.18);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.pre-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #8a4a3a, #c07060, #e8c4b8);
+  border-radius: 999px;
+  transition: width 0.03s linear;
+  box-shadow: 0 0 6px rgba(192,112,96,0.35);
+}
+
+/* Percentage counter */
+.pre-counter {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(138,74,58,0.4);
+  letter-spacing: 2px;
+  min-width: 44px;
+  text-align: center;
+}
+.pre-pct {
+  font-size: 9px;
+  margin-left: 1px;
+}
+
+/* Fade-out transition */
+.preloader-fade-leave-active {
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.preloader-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.03);
 }

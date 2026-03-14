@@ -428,11 +428,6 @@
    RESPONSIVE
 ══════════════════════════════════ */
 
-/* ══════════════════════════════════════════════
-   RESPONSIVE — project.css
-   Breakpoints: 1024px · 768px · 480px
-══════════════════════════════════════════════ */
-
 /* ── Tablet landscape ── */
 @media (max-width: 1024px) {
   .stack-rail     { height: 480px; }
@@ -450,20 +445,34 @@
   .projects-sub     { font-size: 13px; }
 
   .stack-stage {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 8px 5vw 20px;
-    justify-content: flex-start;
+    padding: 8px 4vw 20px;
+    justify-content: center;
+    overflow: visible;
   }
-  .stack-stage::-webkit-scrollbar { display: none; }
-  .stack-rail  { height: 460px; }
 
-  .card-title-main { font-size: 18px; }
-  .card-img-col    { width: 46%; }
-  .card-info-col   { padding: 14px 16px 14px 14px; }
-  .card-desc       { font-size: 12px; line-height: 1.65; }
-  .card-header     { padding: 14px 16px 12px; }
+  /* Rail spans full usable width */
+  .stack-rail {
+    height: 380px;
+    width: calc(100vw - 8vw) !important;
+  }
+
+  /* Active card: take most of the width, leaving room for 2 collapsed peeks */
+  .p-card.active {
+    width: calc(100vw - 8vw - 44px) !important;
+    left: 0 !important;
+  }
+
+  /* Collapsed cards: slim visible strips */
+  .p-card:not(.active) {
+    width: 20px !important;
+  }
+
+  .card-content-row { flex-direction: column; }
+  .card-img-col     { width: 100%; height: 180px; flex-shrink: 0; }
+  .card-info-col    { padding: 12px 16px; gap: 8px; }
+  .card-title-main  { font-size: 17px; }
+  .card-desc        { font-size: 12px; line-height: 1.65; }
+  .card-header      { padding: 12px 16px 10px; }
 }
 
 /* ── Mobile ── */
@@ -471,15 +480,35 @@
   .projects-section { padding: 72px 0 52px; }
   .projects-title   { font-size: clamp(26px, 8vw, 40px); letter-spacing: -1px; }
 
-  /* Stack card content vertically on mobile */
-  .card-content-row  { flex-direction: column; }
-  .card-img-col      { width: 100%; height: 180px; flex-shrink: 0; }
-  .card-info-col     { padding: 12px 14px; gap: 8px; }
-  .stack-rail        { height: 500px; }
+  .stack-stage { padding: 8px 4vw 20px; }
 
-  .card-title-main   { font-size: 16px; }
+  .stack-rail {
+    height: 420px;
+    width: calc(100vw - 8vw) !important;
+  }
+
+  /* Active card leaves just enough room for 2 x 18px collapsed strips */
+  .p-card.active {
+    width: calc(100vw - 8vw - 40px) !important;
+    left: 0 !important;
+  }
+
+  .p-card:not(.active) {
+    width: 18px !important;
+  }
+
+  /* Collapsed label text */
+  .ccl-num   { font-size: 8px; }
+  .ccl-title { font-size: 7px; max-height: 100px; }
+
+  .card-content-row  { flex-direction: column; }
+  .card-img-col      { width: 100%; height: 150px; flex-shrink: 0; }
+  .card-info-col     { padding: 10px 12px; gap: 6px; }
+  .card-info-spacer  { display: none; }
+
+  .card-title-main   { font-size: 15px; }
   .card-cat-badge    { font-size: 8px; padding: 4px 9px; }
-  .card-desc         { font-size: 11.5px; }
+  .card-desc         { font-size: 11px; }
   .ctag              { font-size: 7.5px; padding: 3px 7px; }
   .btn-ghost         { font-size: 9.5px; padding: 6px 10px; }
   .btn-filled        { font-size: 9.5px; padding: 7px 14px; }
@@ -487,4 +516,42 @@
   .stack-nav { gap: 12px; margin-top: 16px; }
   .nav-arr   { width: 32px; height: 32px; }
   .ndot      { width: 5px; height: 5px; }
+}
+/* ══════════════════════════════════
+   DARK MODE
+══════════════════════════════════ */
+[data-theme="dark"] .projects-section {
+  background: #0e0b09;
+}
+
+[data-theme="dark"] .projects-sub {
+  color: #7a5e54;
+}
+
+[data-theme="dark"] .nav-arr {
+  border-color: rgba(212, 144, 126, 0.2);
+  color: #7a5e54;
+}
+
+[data-theme="dark"] .nav-arr:hover:not(:disabled) {
+  border-color: #d4907e;
+  color: #d4907e;
+  background: rgba(212, 144, 126, 0.08);
+}
+
+[data-theme="dark"] .ndot {
+  background: rgba(212, 144, 126, 0.2);
+}
+
+[data-theme="dark"] .ndot.on {
+  background: #d4907e;
+}
+
+/* ── Dark mode text fixes ── */
+[data-theme="dark"] .projects-sub {
+  color: #e7c1b8;
+}
+[data-theme="dark"] .card-collapsed-label .ccl-title,
+[data-theme="dark"] .card-desc {
+  color: rgba(231, 193, 184, 0.65);
 }
