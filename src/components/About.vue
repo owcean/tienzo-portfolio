@@ -239,14 +239,14 @@ const skillGroups = [
 ]
 
 const allCerts = [
-  { name: 'Back-End Development and APIs V8',                    issuer: 'freeCodeCamp', category: 'Technical', image: '/back-end.png' },
-  { name: 'Legacy JavaScript Algorithms and Data Structures V7', issuer: 'freeCodeCamp', category: 'Technical', image: '/javascript.png' },
-  { name: 'Legacy Responsive Web Design V8',                     issuer: 'freeCodeCamp', category: 'Technical', image: '/responsive_web.png' },
-  { name: 'Design Thinking for Beginners',                       issuer: 'Simplilearn',  category: 'Design',    image: '/design.png' },
-  { name: 'HubSpot SEO II Certified',                            issuer: 'HubSpot',      category: 'Marketing', image: '/seo2.png' },
-  { name: 'SEO Certified',                                       issuer: 'HubSpot',      category: 'Marketing', image: '/seo1.png' },
-  { name: 'Content Marketing Certified',                         issuer: 'HubSpot',      category: 'Marketing', image: '/content_marketing.png' },
-  { name: 'Digital Advertising Certified',                       issuer: 'HubSpot',      category: 'Marketing', image: '/digital_advertising.png' },
+  { name: 'Back-End Development and APIs V8',                    issuer: 'freeCodeCamp', category: 'Technical', image: '/certs/back-end.png' },
+  { name: 'Legacy JavaScript Algorithms and Data Structures V7', issuer: 'freeCodeCamp', category: 'Technical', image: '/certs/javascript.png' },
+  { name: 'Legacy Responsive Web Design V8',                     issuer: 'freeCodeCamp', category: 'Technical', image: '/certs/responsive_web.png' },
+  { name: 'Design Thinking for Beginners',                       issuer: 'Simplilearn',  category: 'Design',    image: '/certs/design.png' },
+  { name: 'HubSpot SEO II Certified',                            issuer: 'HubSpot',      category: 'Marketing', image: '/certs/seo2.png' },
+  { name: 'SEO Certified',                                       issuer: 'HubSpot',      category: 'Marketing', image: '/certs/seo1.png' },
+  { name: 'Content Marketing Certified',                         issuer: 'HubSpot',      category: 'Marketing', image: '/certs/content_marketing.png' },
+  { name: 'Digital Advertising Certified',                       issuer: 'HubSpot',      category: 'Marketing', image: '/certs/digital_advertising.png' },
 ]
 
 const certTabs = ['All', 'Technical', 'Design', 'Marketing']
