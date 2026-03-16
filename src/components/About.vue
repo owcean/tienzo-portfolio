@@ -47,9 +47,9 @@
         <div class="bio-left">
           <span class="bio-eyebrow">About Me</span>
           <h2 class="bio-headline">
-            Crafting<br>
-            <em>digital</em><br>
-            experiences.
+            Building the<br>
+            <em>future</em><br>
+            one line at a time.
           </h2>
           <div class="bio-deco-line"></div>
         </div>

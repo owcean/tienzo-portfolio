@@ -1,25 +1,4 @@
-/* ============================================================
-   src/assets/style.css
-   THE SINGLE SOURCE OF TRUTH for the entire project.
 
-   ① Loads ALL fonts once — no component re-imports needed
-   ② Defines ALL design tokens as CSS custom properties
-   ③ Handles light  (default) and dark ([data-theme="dark"])
-   ④ Resets margin/padding/box-sizing globally
-   ⑤ Sets body defaults
-
-   Import order in main.js:
-     import './assets/style.css'   ← this file, first
-     (each component CSS file imports nothing; just uses vars)
-   ============================================================ */
-
-/* ─────────────────────────────────────────
-   FONT STACK  (loaded once, globally)
-   • Playfair Display — display headings, hero names, titles
-   • Cormorant Garamond — elegant serif body / taglines
-   • DM Sans — UI labels, body text, buttons
-   • JetBrains Mono — code blocks, stat numbers (resume)
-───────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,opsz,wght@0,6..60,300;0,6..60,400;0,6..60,600;1,6..60,300;1,6..60,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ─────────────────────────────────────────

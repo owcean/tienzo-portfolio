@@ -152,7 +152,7 @@ const projectStack = ref([
     category: 'Web Development',
     description:
       'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout built with Vue.',
-    image: '/project/studio.png',
+    image: '/studio.png',
     link: 'https://github.com/owcean/StudioSpot.git',
   },
   {
@@ -161,7 +161,7 @@ const projectStack = ref([
     category: 'Full Stack Web App',
     description:
       'An interactive eco-awareness platform that gamifies sustainability through quests, progress tracking, and community engagement.',
-    image: '/project/haueco.png',
+    image: '/haueco.png',
     link: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
   {
@@ -170,7 +170,7 @@ const projectStack = ref([
     category: 'E-commerce Concept',
     description:
       'A bespoke cake business interface combining thoughtful branding with responsive frontend development and clean user flows.',
-    image: '/project/crumbs.png',
+    image: '/crumbs.png',
     link: 'https://github.com/owcean/Crumbs-Layer.git',
   },
 ])
