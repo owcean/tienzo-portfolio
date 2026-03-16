@@ -116,7 +116,7 @@ import '../assets/project.css'
 
 // ── State ──────────────────────────────────────
 const isLoaded    = ref(false)
-const activeIndex = ref(2)
+const activeIndex = ref(0)
 const canvasEl    = ref(null)
 
 // ── Card dimensions ────────────────────────────
@@ -127,58 +127,58 @@ const PEEK_W   = 82    // collapsed card peek width
 const projects = ref([
   {
     id: 1,
-    title: 'StudioSpot',
+    title: 'Velasquez Funeral',
     category: 'Web Development',
     description:
-      'A platform for creative spaces with seamless booking and modern UI/UX. Built with Vue.js with a clean, editorial aesthetic for easy navigation and discovery.',
-    tools: ['Vue.js', 'CSS3', 'JavaScript', 'Firebase'],
-    image: '/studio.png',
-    demo: 'https://github.com/owcean/StudioSpot',
-    repo: 'https://github.com/owcean/StudioSpot.git',
+      'A dignified and compassionate funeral services website built for Velasquez Funeral. Designed with a calm, respectful aesthetic and clear navigation to guide families through services, arrangements, and contact information.',
+    tools: ['Vue.js', 'CSS3', 'JavaScript'],
+    mainImage: '/project/velasquez.png',
+    demo: 'https://velasquezfuneral.com/',
+    repo: null,
   },
   {
     id: 2,
-    title: 'Crumbs & Layer',
-    category: 'E-commerce Concept',
-    description:
-      'Bespoke cake business interface blending baking passion with clean frontend code. Features a custom cake builder, product gallery, and responsive checkout flow.',
-    tools: ['HTML5', 'CSS3', 'JavaScript', 'Figma'],
-    image: '/crumbs.png',
-    demo: 'https://owcean.github.io/Crumbs-Layer/',
-    repo: 'https://github.com/owcean/Crumbs-Layer.git',
-  },
-  {
-    id: 3,
-    title: 'Bloom Blossom Florals',
-    category: 'Frontend Design',
-    description:
-      'Elegant floral shop showcasing editorial HTML/CSS/JS design. Features animated product cards, a filterable catalogue, and a soft organic visual language.',
-    tools: ['HTML5', 'CSS3', 'JavaScript'],
-    image: '/blooms.png',
-    demo: 'https://beamish-sopapillas-131a04.netlify.app/',
-    repo: 'https://github.com/owcean/Bloom-Blossom-Florals.git',
-  },
-  {
-    id: 4,
     title: 'HAU ECO QUEST',
     category: 'Full Stack Web App',
     description:
-      'An interactive eco-awareness web application promoting sustainability within the university community. Features quests, progress tracking, and gamified learning.',
+      'An interactive eco-awareness web application promoting sustainability within the university community. Features quests, progress tracking, and gamified learning to encourage greener campus habits.',
     tools: ['Vue.js', 'Node.js', 'Express', 'MongoDB'],
-    image: '/haueco.png',
+    mainImage: '/project/haueco.png',
     demo: 'https://hauecoquest.vercel.app/',
     repo: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
   {
-    id: 5,
-    title: 'Coming Soon',
-    category: 'In Progress',
+    id: 3,
+    title: 'Web Dev Portfolio',
+    category: 'Portfolio Design',
     description:
-      'A new project currently under development. Details and live demo will be revealed soon.',
-    tools: [],
-    image: null,
+      'A personal developer portfolio showcasing projects, skills, and experience with a clean editorial layout. Built with Vue.js, featuring smooth animations, a typewriter hero, and a dark/light theme toggle.',
+    tools: ['Vue.js', 'CSS3', 'JavaScript', 'Figma'],
+    mainImage: '/project/portfolio.png',
     demo: null,
-    repo: null,
+    repo: 'https://github.com/owcean',
+  },
+  {
+    id: 4,
+    title: 'StudioSpot',
+    category: 'Web Development',
+    description:
+      'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout. Built with Vue.js for easy studio discovery and reservation management.',
+    tools: ['Vue.js', 'CSS3', 'JavaScript', 'Firebase'],
+    mainImage: '/project/studio.png',
+    demo: 'https://studiospot.vercel.app/',
+    repo: 'https://github.com/owcean/StudioSpot.git',
+  },
+  {
+    id: 5,
+    title: 'Crumbs & Layer',
+    category: 'E-commerce Concept',
+    description:
+      'A bespoke cake business interface blending warmth and clean frontend craftsmanship. Features a custom cake builder, product gallery, and a fully responsive checkout flow.',
+    tools: ['HTML5', 'CSS3', 'JavaScript', 'Figma'],
+    mainImage: '/project/crumbs.png',
+    demo: 'https://owcean.github.io/Crumbs-Layer/',
+    repo: 'https://github.com/owcean/Crumbs-Layer.git',
   },
 ])
 

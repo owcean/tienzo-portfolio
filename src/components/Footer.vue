@@ -43,9 +43,6 @@
           <a href="https://www.facebook.com/kgtnzo" target="_blank" aria-label="Facebook" class="social-icon-link">
             <img src="/facebook.png" alt="Facebook" />
           </a>
-          <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="social-icon-link">
-            <img src="/instagram.png" alt="Instagram" />
-          </a>
         </div>
       </div>
 
