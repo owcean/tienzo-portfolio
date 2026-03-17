@@ -480,16 +480,11 @@
   align-items: center;
 }
 
-.footer-copy,
-.footer-made {
+.footer-copy {
   font-size: 11px;
   font-weight: 400;
   color: rgba(90,62,56,0.38);
   letter-spacing: 0.5px;
-}
-
-.footer-made {
-  color: rgba(192,112,96,0.5);
 }
 
 /* ── RESPONSIVE ── */

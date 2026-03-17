@@ -51,7 +51,6 @@
     <!-- Bottom bar -->
     <div class="footer-bar">
       <span class="footer-copy">© 2026 Krisean Tienzo. All rights reserved.</span>
-      <span class="footer-made">Designed & Built with ♥</span>
     </div>
 
   </footer>

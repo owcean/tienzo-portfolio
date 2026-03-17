@@ -1,15 +1,10 @@
 import { createApp } from 'vue'
 import './style.css'
+import './assets/style.css'
 import App from './App.vue'
 import router from './router'
-import './assets/style.css'
 import { inject } from '@vercel/analytics'
-inject();
 
-createApp(App).mount('#app')
+inject()
 
-
-const app = createApp(App)
-app.use(router) 
-app.mount('#app')
-
+createApp(App).use(router).mount('#app')
