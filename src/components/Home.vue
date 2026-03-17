@@ -187,9 +187,8 @@ const getCardStyle = (index) => ({
   opacity: 1 - index * 0.18,
 })
 
-// ── Particle system for dark universe section ────────────────────
-function initParticles(canvas) {
-  const ctx = canvas.getContext('2d')
+// ── Fireflies ────────────────────────────────────────────────
+function initParticles(canvas) {  const ctx = canvas.getContext('2d')
   let W = 0, H = 0
 
   function resize() {
@@ -201,63 +200,80 @@ function initParticles(canvas) {
   const ro = new ResizeObserver(resize)
   ro.observe(canvas.parentElement)
 
-  // Darker, deeper rose for the dark background
-  const PALETTE = [
-    'rgba(192,112,96,',
-    'rgba(160,80,60,',
-    'rgba(220,148,120,',
-    'rgba(138,74,58,',
-    'rgba(245,200,180,',
+  const COLORS = [
+    { r: 245, g: 200, b: 160 },
+    { r: 220, g: 160, b: 110 },
+    { r: 255, g: 220, b: 180 },
+    { r: 192, g: 130, b: 90  },
+    { r: 255, g: 240, b: 200 },
   ]
 
-  const COUNT = 55
-  const particles = Array.from({ length: COUNT }, () => spawn())
-
-  function spawn() {
+  function spawnFirefly() {
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)]
     return {
-      x:   Math.random() * (W || 800),
-      y:   Math.random() * (H || 500),
-      r:   Math.random() * 2.4 + 0.5,
-      vx:  (Math.random() - 0.5) * 0.32,
-      vy:  (Math.random() - 0.5) * 0.32,
-      col: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-      a:   Math.random() * 0.30 + 0.08,
-      pa:  Math.random() * Math.PI * 2,
-      ps:  Math.random() * 0.01 + 0.003,
+      x:        Math.random() * (W || 800),
+      y:        Math.random() * (H || 500),
+      r:        Math.random() * 1.8 + 0.8,
+      col,
+      blinkPh:  Math.random() * Math.PI * 2,
+      blinkSpd: Math.random() * 0.018 + 0.008,
+      blinkAmp: Math.random() * 0.35 + 0.25,
+      baseA:    Math.random() * 0.25 + 0.15,
+      angle:    Math.random() * Math.PI * 2,
+      turnSpd:  (Math.random() - 0.5) * 0.04,
+      speed:    Math.random() * 0.38 + 0.12,
+      tail:     [],
+      tailLen:  Math.floor(Math.random() * 10 + 6),
     }
   }
 
-  const CONN = 125
+  const COUNT = 48
+  const flies = Array.from({ length: COUNT }, spawnFirefly)
+
+  function drawFirefly(f) {
+    const alpha = f.baseA + Math.sin(f.blinkPh) * f.blinkAmp
+    const a     = Math.max(0, Math.min(1, alpha))
+    const { r, g, b } = f.col
+    for (let i = 0; i < f.tail.length; i++) {
+      const t    = f.tail[i]
+      const frac = i / f.tail.length
+      ctx.beginPath()
+      ctx.arc(t.x, t.y, f.r * frac * 0.6, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(${r},${g},${b},${a * frac * 0.18})`
+      ctx.fill()
+    }
+    const halo = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 9)
+    halo.addColorStop(0,    `rgba(${r},${g},${b},${a * 0.28})`)
+    halo.addColorStop(0.35, `rgba(${r},${g},${b},${a * 0.10})`)
+    halo.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 9, 0, Math.PI * 2)
+    ctx.fillStyle = halo
+    ctx.fill()
+    const core = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 1.6)
+    core.addColorStop(0,   `rgba(255,248,230,${a * 0.95})`)
+    core.addColorStop(0.4, `rgba(${r},${g},${b},${a * 0.85})`)
+    core.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 1.6, 0, Math.PI * 2)
+    ctx.fillStyle = core
+    ctx.fill()
+  }
 
   function draw() {
     ctx.clearRect(0, 0, W, H)
-    for (const p of particles) {
-      p.x += p.vx; p.y += p.vy; p.pa += p.ps
-      if (p.x < -10) p.x = W + 10
-      if (p.x > W + 10) p.x = -10
-      if (p.y < -10) p.y = H + 10
-      if (p.y > H + 10) p.y = -10
-      const alpha = p.a + Math.sin(p.pa) * 0.08
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-      ctx.fillStyle = p.col + alpha + ')'
-      ctx.fill()
-    }
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x
-        const dy = particles[i].y - particles[j].y
-        const d  = Math.sqrt(dx * dx + dy * dy)
-        if (d < CONN) {
-          const r = 1 - d / CONN
-          ctx.beginPath()
-          ctx.moveTo(particles[i].x, particles[i].y)
-          ctx.lineTo(particles[j].x, particles[j].y)
-          ctx.strokeStyle = `rgba(192,112,96,${r * 0.18})`
-          ctx.lineWidth   = r * 0.8
-          ctx.stroke()
-        }
-      }
+    for (const f of flies) {
+      f.blinkPh += f.blinkSpd
+      f.angle   += f.turnSpd + Math.sin(f.blinkPh * 0.3) * 0.012
+      f.x += Math.cos(f.angle) * f.speed
+      f.y += Math.sin(f.angle) * f.speed
+      if (f.x < 0) { f.x = 0; f.angle = Math.PI - f.angle }
+      if (f.x > W) { f.x = W; f.angle = Math.PI - f.angle }
+      if (f.y < 0) { f.y = 0; f.angle = -f.angle }
+      if (f.y > H) { f.y = H; f.angle = -f.angle }
+      f.tail.unshift({ x: f.x, y: f.y })
+      if (f.tail.length > f.tailLen) f.tail.pop()
+      drawFirefly(f)
     }
     animId = requestAnimationFrame(draw)
   }

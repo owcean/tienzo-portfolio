@@ -65,8 +65,7 @@ const canvasEl = ref(null)
 const footerEl = ref(null)
 let animId     = null
 
-function initParticles(canvas, container) {
-  const ctx = canvas.getContext('2d')
+function initParticles(canvas, container) {  const ctx = canvas.getContext('2d')
   let W = 0, H = 0
 
   function resize() {
@@ -75,83 +74,88 @@ function initParticles(canvas, container) {
     H = canvas.height = rect.height || 320
   }
   resize()
+  const ro = new ResizeObserver(resize)
+  ro.observe(container)
 
-  const resizeObserver = new ResizeObserver(resize)
-  resizeObserver.observe(container)
-
-  // Same dark rose/brown palette as projects section
-  const PALETTE = [
-    'rgba(138,74,58,',
-    'rgba(110,52,40,',
-    'rgba(160,90,70,',
-    'rgba(192,112,96,',
-    'rgba(80,42,36,',
+  const COLORS = [
+    { r: 245, g: 200, b: 160 },
+    { r: 220, g: 160, b: 110 },
+    { r: 255, g: 220, b: 180 },
+    { r: 192, g: 130, b: 90  },
+    { r: 255, g: 240, b: 200 },
   ]
 
-  const COUNT = 55
-  const particles = Array.from({ length: COUNT }, () => spawn())
-
-  function spawn() {
+  function spawnFirefly() {
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)]
     return {
-      x:  Math.random() * (W || 800),
-      y:  Math.random() * (H || 320),
-      r:  Math.random() * 3.0 + 0.7,
-      vx: (Math.random() - 0.5) * 0.36,
-      vy: (Math.random() - 0.5) * 0.36,
-      col: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-      a:  Math.random() * 0.42 + 0.16,
-      pa: Math.random() * Math.PI * 2,
-      ps: Math.random() * 0.012 + 0.004,
+      x:        Math.random() * (W || 800),
+      y:        Math.random() * (H || 320),
+      r:        Math.random() * 1.6 + 0.6,
+      col,
+      blinkPh:  Math.random() * Math.PI * 2,
+      blinkSpd: Math.random() * 0.018 + 0.008,
+      blinkAmp: Math.random() * 0.35 + 0.25,
+      baseA:    Math.random() * 0.22 + 0.12,
+      angle:    Math.random() * Math.PI * 2,
+      turnSpd:  (Math.random() - 0.5) * 0.04,
+      speed:    Math.random() * 0.32 + 0.10,
+      tail:     [],
+      tailLen:  Math.floor(Math.random() * 8 + 4),
     }
   }
 
-  const CONN = 140
+  const COUNT = 32
+  const flies = Array.from({ length: COUNT }, spawnFirefly)
+
+  function drawFirefly(f) {
+    const alpha = f.baseA + Math.sin(f.blinkPh) * f.blinkAmp
+    const a     = Math.max(0, Math.min(1, alpha))
+    const { r, g, b } = f.col
+    for (let i = 0; i < f.tail.length; i++) {
+      const t    = f.tail[i]
+      const frac = i / f.tail.length
+      ctx.beginPath()
+      ctx.arc(t.x, t.y, f.r * frac * 0.6, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(${r},${g},${b},${a * frac * 0.18})`
+      ctx.fill()
+    }
+    const halo = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 9)
+    halo.addColorStop(0,    `rgba(${r},${g},${b},${a * 0.28})`)
+    halo.addColorStop(0.35, `rgba(${r},${g},${b},${a * 0.10})`)
+    halo.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 9, 0, Math.PI * 2)
+    ctx.fillStyle = halo
+    ctx.fill()
+    const core = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 1.6)
+    core.addColorStop(0,   `rgba(255,248,230,${a * 0.95})`)
+    core.addColorStop(0.4, `rgba(${r},${g},${b},${a * 0.85})`)
+    core.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 1.6, 0, Math.PI * 2)
+    ctx.fillStyle = core
+    ctx.fill()
+  }
 
   function draw() {
     ctx.clearRect(0, 0, W, H)
-
-    for (const p of particles) {
-      p.x  += p.vx
-      p.y  += p.vy
-      p.pa += p.ps
-      if (p.x < -10) p.x = W + 10
-      if (p.x > W + 10) p.x = -10
-      if (p.y < -10) p.y = H + 10
-      if (p.y > H + 10) p.y = -10
-
-      const alpha = p.a + Math.sin(p.pa) * 0.13
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-      ctx.fillStyle = p.col + alpha + ')'
-      ctx.fill()
+    for (const f of flies) {
+      f.blinkPh += f.blinkSpd
+      f.angle   += f.turnSpd + Math.sin(f.blinkPh * 0.3) * 0.012
+      f.x += Math.cos(f.angle) * f.speed
+      f.y += Math.sin(f.angle) * f.speed
+      if (f.x < 0) { f.x = 0; f.angle = Math.PI - f.angle }
+      if (f.x > W) { f.x = W; f.angle = Math.PI - f.angle }
+      if (f.y < 0) { f.y = 0; f.angle = -f.angle }
+      if (f.y > H) { f.y = H; f.angle = -f.angle }
+      f.tail.unshift({ x: f.x, y: f.y })
+      if (f.tail.length > f.tailLen) f.tail.pop()
+      drawFirefly(f)
     }
-
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x
-        const dy = particles[i].y - particles[j].y
-        const d  = Math.sqrt(dx * dx + dy * dy)
-        if (d < CONN) {
-          const r = 1 - d / CONN
-          ctx.beginPath()
-          ctx.moveTo(particles[i].x, particles[i].y)
-          ctx.lineTo(particles[j].x, particles[j].y)
-          ctx.strokeStyle = `rgba(110,52,40,${r * 0.30})`
-          ctx.lineWidth   = r * 1.1
-          ctx.stroke()
-        }
-      }
-    }
-
     animId = requestAnimationFrame(draw)
   }
-
   draw()
-
-  return () => {
-    cancelAnimationFrame(animId)
-    resizeObserver.disconnect()
-  }
+  return () => { cancelAnimationFrame(animId); ro.disconnect() }
 }
 
 let cleanup = null
@@ -162,4 +166,3 @@ onMounted(() => {
 })
 onUnmounted(() => cleanup?.())
 </script>
-

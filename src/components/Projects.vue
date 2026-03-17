@@ -45,10 +45,54 @@
             <!-- Image left + Info right -->
             <div class="card-content-row">
 
-              <!-- Image column -->
+              <!-- Image column — manual carousel -->
               <div class="card-img-col">
-                <img :src="project.mainImage" :alt="project.title" class="card-img" />
+                <transition name="img-fade" mode="out-in">
+                  <img
+                    :key="slideIndices[project.id] ?? 0"
+                    :src="project.images[slideIndices[project.id] ?? 0]"
+                    :alt="`${project.title} screenshot ${(slideIndices[project.id] ?? 0) + 1}`"
+                    class="card-img"
+                  />
+                </transition>
                 <div class="card-img-shine"></div>
+
+                <!-- Carousel arrows -->
+                <div v-if="project.images.length > 1" class="carousel-controls" @click.stop>
+                  <button
+                    class="carousel-arr carousel-prev"
+                    :disabled="(slideIndices[project.id] ?? 0) === 0"
+                    @click.stop="slideProject(project, -1)"
+                    aria-label="Previous image"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                  </button>
+                  <button
+                    class="carousel-arr carousel-next"
+                    :disabled="(slideIndices[project.id] ?? 0) === project.images.length - 1"
+                    @click.stop="slideProject(project, 1)"
+                    aria-label="Next image"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </div>
+
+                <!-- Dot indicators -->
+                <div v-if="project.images.length > 1" class="slide-dots" @click.stop>
+                  <button
+                    v-for="(_, si) in project.images"
+                    :key="si"
+                    class="sdot"
+                    :class="{ active: (slideIndices[project.id] ?? 0) === si }"
+                    @click.stop="goToSlide(project, si)"
+                    :aria-label="`Image ${si + 1}`"
+                  ></button>
+                </div>
+
+                <!-- Counter -->
+                <div v-if="project.images.length > 1" class="slide-counter">
+                  {{ (slideIndices[project.id] ?? 0) + 1 }} / {{ project.images.length }}
+                </div>
               </div>
 
               <!-- Info column -->
@@ -62,13 +106,13 @@
                 </div>
 
                 <div class="card-actions">
-                  <a :href="project.repo" target="_blank" rel="noopener" class="btn-ghost">
+                  <a v-if="project.repo" :href="project.repo" target="_blank" rel="noopener" class="btn-ghost">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
                     </svg>
                     Code
                   </a>
-                  <a :href="project.demo" target="_blank" rel="noopener" class="btn-ghost">
+                  <a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener" class="btn-ghost">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                       <polyline points="15 3 21 3 21 9"/>
@@ -76,7 +120,7 @@
                     </svg>
                     Live
                   </a>
-                  <a :href="project.demo" target="_blank" rel="noopener" class="btn-filled">
+                  <a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener" class="btn-filled">
                     Explore +
                   </a>
                 </div>
@@ -111,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import '../assets/project.css'
 
 // ── State ──────────────────────────────────────
@@ -120,10 +164,11 @@ const activeIndex = ref(0)
 const canvasEl    = ref(null)
 
 // ── Card dimensions ────────────────────────────
-const CARD_H   = 440   // active card height (landscape)
-const ACTIVE_W = 760   // active card width  (landscape)
-const PEEK_W   = 82    // collapsed card peek width
+const CARD_H   = 440
+const ACTIVE_W = 760
+const PEEK_W   = 82
 
+// ── Projects ───────────────────────────────────
 const projects = ref([
   {
     id: 1,
@@ -132,8 +177,8 @@ const projects = ref([
     description:
       'A dignified and compassionate funeral services website built for Velasquez Funeral. Designed with a calm, respectful aesthetic and clear navigation to guide families through services, arrangements, and contact information.',
     tools: ['Vue.js', 'CSS3', 'JavaScript'],
-    mainImage: '/project/velasquez.png',
-    demo: 'https://velasquezfuneral.com/',
+    images: ['/velasquez.png', '/velasquez-2.png', '/velasquez-3.png'],
+    demo: null,
     repo: null,
   },
   {
@@ -143,7 +188,7 @@ const projects = ref([
     description:
       'An interactive eco-awareness web application promoting sustainability within the university community. Features quests, progress tracking, and gamified learning to encourage greener campus habits.',
     tools: ['Vue.js', 'Node.js', 'Express', 'MongoDB'],
-    mainImage: '/project/haueco.png',
+    images: ['/haueco.png', '/haueco-2.png', '/haueco-3.png'],
     demo: 'https://hauecoquest.vercel.app/',
     repo: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
@@ -154,7 +199,7 @@ const projects = ref([
     description:
       'A personal developer portfolio showcasing projects, skills, and experience with a clean editorial layout. Built with Vue.js, featuring smooth animations, a typewriter hero, and a dark/light theme toggle.',
     tools: ['Vue.js', 'CSS3', 'JavaScript', 'Figma'],
-    mainImage: '/project/portfolio.png',
+    images: ['/portfolio.png', '/portfolio-2.png', '/portfolio-3.png'],
     demo: null,
     repo: 'https://github.com/owcean',
   },
@@ -165,8 +210,8 @@ const projects = ref([
     description:
       'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout. Built with Vue.js for easy studio discovery and reservation management.',
     tools: ['Vue.js', 'CSS3', 'JavaScript', 'Firebase'],
-    mainImage: '/project/studio.png',
-    demo: 'https://studiospot.vercel.app/',
+    images: ['/studio.png', '/studio-2.png', '/studio-3.png'],
+    demo: 'https://github.com/owcean/StudioSpot',
     repo: 'https://github.com/owcean/StudioSpot.git',
   },
   {
@@ -176,31 +221,49 @@ const projects = ref([
     description:
       'A bespoke cake business interface blending warmth and clean frontend craftsmanship. Features a custom cake builder, product gallery, and a fully responsive checkout flow.',
     tools: ['HTML5', 'CSS3', 'JavaScript', 'Figma'],
-    mainImage: '/project/crumbs.png',
+    images: ['/crumbs.png', '/crumbs-2.png', '/crumbs-3.png'],
     demo: 'https://owcean.github.io/Crumbs-Layer/',
     repo: 'https://github.com/owcean/Crumbs-Layer.git',
   },
 ])
 
+// ── Carousel (per-project slide index) ────────
+const slideIndices = ref({})
 
+function slideProject(project, dir) {
+  const cur   = slideIndices.value[project.id] ?? 0
+  const total = project.images.length
+  const next  = Math.min(Math.max(cur + dir, 0), total - 1)
+  slideIndices.value = { ...slideIndices.value, [project.id]: next }
+}
+
+function goToSlide(project, idx) {
+  slideIndices.value = { ...slideIndices.value, [project.id]: idx }
+}
+
+// Reset slide to 0 when switching to a new card
+watch(activeIndex, (newIdx) => {
+  const project = projects.value[newIdx]
+  slideIndices.value = { ...slideIndices.value, [project.id]: 0 }
+})
+
+// ── Rail width ─────────────────────────────────
 const n     = computed(() => projects.value.length)
 const railW = computed(() => ACTIVE_W + (n.value - 1) * PEEK_W)
 
+// ── Card positioning ───────────────────────────
 function cardStyle(i) {
-  const a   = activeIndex.value
-  const rel = i - a
-  const isActive = rel === 0
-  const dist = Math.abs(rel)
+  const a        = activeIndex.value
+  const isActive = i === a
+  const dist     = Math.abs(i - a)
 
-  // Accumulate left by summing widths before card i
   let left = 0
   for (let j = 0; j < i; j++) {
     left += (j === a ? ACTIVE_W : PEEK_W)
   }
 
-  const height   = isActive ? CARD_H : Math.round(CARD_H * Math.max(0.88, 1 - dist * 0.035))
-  const yShift   = isActive ? '-50%' : `calc(-50% + ${dist * 8}px)`
-  const z        = n.value - dist
+  const height = isActive ? CARD_H : Math.round(CARD_H * Math.max(0.88, 1 - dist * 0.035))
+  const yShift = isActive ? '-50%' : `calc(-50% + ${dist * 8}px)`
 
   return {
     left:      left + 'px',
@@ -208,7 +271,7 @@ function cardStyle(i) {
     height:    height + 'px',
     top:       '50%',
     transform: `translateY(${yShift})`,
-    zIndex:    z,
+    zIndex:    n.value - dist,
   }
 }
 
@@ -220,7 +283,7 @@ function onKey(e) {
   if (e.key === 'ArrowLeft')  prev()
 }
 
-// ── Particle system ────────────────────────────
+// ── Fireflies ────────────────────────────────────────────────
 let animId = null
 
 function initParticles(canvas) {
@@ -234,75 +297,84 @@ function initParticles(canvas) {
   resize()
   window.addEventListener('resize', resize)
 
-  // Colour palette matching brand — darker values
-  const PALETTE = [
-    'rgba(138,74,58,',   // deep rose — dark
-    'rgba(110,52,40,',   // very deep rose
-    'rgba(160,90,70,',   // mid rose
-    'rgba(192,112,96,',  // rose accent
-    'rgba(80,42,36,',    // near-brown dark
+  const COLORS = [
+    { r: 245, g: 200, b: 160 },
+    { r: 220, g: 160, b: 110 },
+    { r: 255, g: 220, b: 180 },
+    { r: 192, g: 130, b: 90  },
+    { r: 255, g: 240, b: 200 },
   ]
 
-  const COUNT = 65
-  const particles = Array.from({ length: COUNT }, () => makeParticle(W, H, PALETTE))
-
-  function makeParticle(W, H, PAL) {
+  function spawnFirefly() {
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)]
     return {
-      x:    Math.random() * W,
-      y:    Math.random() * H,
-      r:    Math.random() * 3.2 + 0.8,
-      vx:   (Math.random() - 0.5) * 0.38,
-      vy:   (Math.random() - 0.5) * 0.38,
-      col:  PAL[Math.floor(Math.random() * PAL.length)],
-      a:    Math.random() * 0.45 + 0.18,   // much higher base opacity
-      // pulse
-      pa:   Math.random() * Math.PI * 2,
-      ps:   Math.random() * 0.012 + 0.004,
+      x:        Math.random() * W,
+      y:        Math.random() * H,
+      r:        Math.random() * 1.8 + 0.8,
+      col,
+      blinkPh:  Math.random() * Math.PI * 2,
+      blinkSpd: Math.random() * 0.018 + 0.008,
+      blinkAmp: Math.random() * 0.35 + 0.25,
+      baseA:    Math.random() * 0.25 + 0.15,
+      angle:    Math.random() * Math.PI * 2,
+      turnSpd:  (Math.random() - 0.5) * 0.04,
+      speed:    Math.random() * 0.38 + 0.12,
+      tail:     [],
+      tailLen:  Math.floor(Math.random() * 10 + 6),
     }
   }
 
-  const CONNECTION_DIST = 145
+  const COUNT = 55
+  const flies = Array.from({ length: COUNT }, spawnFirefly)
 
-  function draw() {
-    ctx.clearRect(0, 0, W, H)
+  function drawFirefly(f) {
+    const alpha = f.baseA + Math.sin(f.blinkPh) * f.blinkAmp
+    const a     = Math.max(0, Math.min(1, alpha))
+    const { r, g, b } = f.col
 
-    // update + draw particles
-    for (const p of particles) {
-      p.x  += p.vx
-      p.y  += p.vy
-      p.pa += p.ps
-      const alpha = p.a + Math.sin(p.pa) * 0.14
-
-      // wrap
-      if (p.x < -10) p.x = W + 10
-      if (p.x > W + 10) p.x = -10
-      if (p.y < -10) p.y = H + 10
-      if (p.y > H + 10) p.y = -10
-
+    for (let i = 0; i < f.tail.length; i++) {
+      const t    = f.tail[i]
+      const frac = i / f.tail.length
       ctx.beginPath()
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-      ctx.fillStyle = p.col + alpha + ')'
+      ctx.arc(t.x, t.y, f.r * frac * 0.6, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(${r},${g},${b},${a * frac * 0.18})`
       ctx.fill()
     }
 
-    // draw connections
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x
-        const dy = particles[i].y - particles[j].y
-        const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < CONNECTION_DIST) {
-          const ratio = 1 - dist / CONNECTION_DIST
-          ctx.beginPath()
-          ctx.moveTo(particles[i].x, particles[i].y)
-          ctx.lineTo(particles[j].x, particles[j].y)
-          ctx.strokeStyle = `rgba(110,52,40,${ratio * 0.32})`
-          ctx.lineWidth = ratio * 1.2
-          ctx.stroke()
-        }
-      }
-    }
+    const halo = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 9)
+    halo.addColorStop(0,    `rgba(${r},${g},${b},${a * 0.28})`)
+    halo.addColorStop(0.35, `rgba(${r},${g},${b},${a * 0.10})`)
+    halo.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 9, 0, Math.PI * 2)
+    ctx.fillStyle = halo
+    ctx.fill()
 
+    const core = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 1.6)
+    core.addColorStop(0,   `rgba(255,248,230,${a * 0.95})`)
+    core.addColorStop(0.4, `rgba(${r},${g},${b},${a * 0.85})`)
+    core.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+    ctx.beginPath()
+    ctx.arc(f.x, f.y, f.r * 1.6, 0, Math.PI * 2)
+    ctx.fillStyle = core
+    ctx.fill()
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H)
+    for (const f of flies) {
+      f.blinkPh += f.blinkSpd
+      f.angle   += f.turnSpd + Math.sin(f.blinkPh * 0.3) * 0.012
+      f.x += Math.cos(f.angle) * f.speed
+      f.y += Math.sin(f.angle) * f.speed
+      if (f.x < 0) { f.x = 0; f.angle = Math.PI - f.angle }
+      if (f.x > W) { f.x = W; f.angle = Math.PI - f.angle }
+      if (f.y < 0) { f.y = 0; f.angle = -f.angle }
+      if (f.y > H) { f.y = H; f.angle = -f.angle }
+      f.tail.unshift({ x: f.x, y: f.y })
+      if (f.tail.length > f.tailLen) f.tail.pop()
+      drawFirefly(f)
+    }
     animId = requestAnimationFrame(draw)
   }
 
@@ -319,9 +391,7 @@ let cleanupParticles = null
 onMounted(() => {
   setTimeout(() => { isLoaded.value = true }, 80)
   window.addEventListener('keydown', onKey)
-  if (canvasEl.value) {
-    cleanupParticles = initParticles(canvasEl.value)
-  }
+  if (canvasEl.value) cleanupParticles = initParticles(canvasEl.value)
 })
 
 onUnmounted(() => {
