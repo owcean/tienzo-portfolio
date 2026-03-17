@@ -1,4 +1,4 @@
-/* NOTE: Fonts & base tokens are loaded by src/assets/style.css
+  /* NOTE: Fonts & base tokens are loaded by src/assets/style.css
     Do NOT add @import for Google Fonts here. */
 
   /* assets/home.css */
@@ -204,7 +204,6 @@
     justify-content: space-around;
     align-items: center;
     height: 100vh;
-    height: 100svh;
     padding: 0 5%;
     background-color: var(--bg-cream, #faf7f4);
     }
@@ -682,8 +681,7 @@
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
       height: auto;
-      min-height: 100vh;
-    min-height: 100svh;
+      min-height: 100svh;
       padding: 80px 6% 52px;
       gap: 0;
       align-items: start;
@@ -759,8 +757,7 @@
       display: flex;
       flex-direction: column;
       height: auto;
-      min-height: 100vh;
-    min-height: 100svh;
+      min-height: 100svh;
       padding: 72px 6% 48px;
       gap: 0;
       align-items: center;

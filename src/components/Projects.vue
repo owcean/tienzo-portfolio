@@ -177,7 +177,7 @@ const projects = ref([
     description:
       'A dignified and compassionate funeral services website built for Velasquez Funeral. Designed with a calm, respectful aesthetic and clear navigation to guide families through services, arrangements, and contact information.',
     tools: ['Vue.js', 'CSS3', 'JavaScript'],
-    images: ['/velasquez.png', '/velasquez-2.png', '/velasquez-3.png'],
+    images: ['/project/velasquez.png', '/project/velasquez-2.png', '/project/velasquez-3.png'],
     demo: null,
     repo: null,
   },
@@ -188,20 +188,20 @@ const projects = ref([
     description:
       'An interactive eco-awareness web application promoting sustainability within the university community. Features quests, progress tracking, and gamified learning to encourage greener campus habits.',
     tools: ['Vue.js', 'Node.js', 'Express', 'MongoDB'],
-    images: ['/haueco.png', '/haueco-2.png', '/haueco-3.png'],
+    images: ['/project/haueco.png', '/project/haueco-2.png', '/project/haueco-3.png'],
     demo: 'https://hauecoquest.vercel.app/',
     repo: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
   {
     id: 3,
-    title: 'Web Dev Portfolio',
-    category: 'Portfolio Design',
+    title: 'Fixify',
+    category: 'Full Stack Web App',
     description:
-      'A personal developer portfolio showcasing projects, skills, and experience with a clean editorial layout. Built with Vue.js, featuring smooth animations, a typewriter hero, and a dark/light theme toggle.',
-    tools: ['Vue.js', 'CSS3', 'JavaScript', 'Figma'],
-    images: ['/portfolio.png', '/portfolio-2.png', '/portfolio-3.png'],
+      'A web-based home service marketplace for Angeles City, Pampanga connecting residents with verified local professionals for plumbing, electrical, and cleaning services. Built with Angular 21, featuring standalone components, Signals for reactive state, lazy-loaded routes, a Node.js/Express REST API, and MongoDB Atlas — supporting three distinct user roles: Customer, Service Provider, and Admin.',
+    tools: ['Angular 21', 'Node.js', 'Express', 'MongoDB', 'TypeScript'],
+    images: ['/project/fixify.png', '/project/fixify-2.png', '/project/fixify-3.png'],
     demo: null,
-    repo: 'https://github.com/owcean',
+    repo: 'https://github.com/adriansarmiento-code/6AWEB-FINAL-REQUIREMENT.git',
   },
   {
     id: 4,
@@ -210,8 +210,8 @@ const projects = ref([
     description:
       'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout. Built with Vue.js for easy studio discovery and reservation management.',
     tools: ['Vue.js', 'CSS3', 'JavaScript', 'Firebase'],
-    images: ['/studio.png', '/studio-2.png', '/studio-3.png'],
-    demo: 'https://github.com/owcean/StudioSpot',
+    images: ['/project/studio.png', '/project/studio-2.png', '/project/studio-3.png'],
+    demo: 'https://studiospot.vercel.app/',
     repo: 'https://github.com/owcean/StudioSpot.git',
   },
   {
@@ -221,7 +221,7 @@ const projects = ref([
     description:
       'A bespoke cake business interface blending warmth and clean frontend craftsmanship. Features a custom cake builder, product gallery, and a fully responsive checkout flow.',
     tools: ['HTML5', 'CSS3', 'JavaScript', 'Figma'],
-    images: ['/crumbs.png', '/crumbs-2.png', '/crumbs-3.png'],
+    images: ['/project/crumbs.png', '/project/crumbs-2.png', '/project/crumbs-3.png'],
     demo: 'https://owcean.github.io/Crumbs-Layer/',
     repo: 'https://github.com/owcean/Crumbs-Layer.git',
   },

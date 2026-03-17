@@ -148,12 +148,12 @@ const type = () => {
 const projectStack = ref([
   {
     id: 1,
-    title: 'StudioSpot',
+    title: 'Velasquez Funeral',
     category: 'Web Development',
     description:
-      'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout built with Vue.',
-    image: '/studio.png',
-    link: 'https://github.com/owcean/StudioSpot.git',
+      'A dignified funeral services website designed with a calm, respectful aesthetic to guide families through services, arrangements, and contact.',
+    image: '/project/velasquez.png',
+    link: 'https://github.com/owcean',
   },
   {
     id: 2,
@@ -161,17 +161,17 @@ const projectStack = ref([
     category: 'Full Stack Web App',
     description:
       'An interactive eco-awareness platform that gamifies sustainability through quests, progress tracking, and community engagement.',
-    image: '/haueco.png',
+    image: '/project/haueco.png',
     link: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
   },
   {
     id: 3,
-    title: 'Crumbs & Layer',
-    category: 'E-commerce Concept',
+    title: 'StudioSpot',
+    category: 'Web Development',
     description:
-      'A bespoke cake business interface combining thoughtful branding with responsive frontend development and clean user flows.',
-    image: '/crumbs.png',
-    link: 'https://github.com/owcean/Crumbs-Layer.git',
+      'A professional platform for creative spaces featuring seamless booking, modern UI/UX, and a clean editorial layout built with Vue.',
+    image: '/project/studio.png',
+    link: 'https://github.com/owcean/StudioSpot.git',
   },
 ])
 
